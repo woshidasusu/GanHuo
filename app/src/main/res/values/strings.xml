@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">GanHuo</string>
+
+    <string name="no_network_tip_text">网络不给力，请检查网络设置。</string>
+</resources>
