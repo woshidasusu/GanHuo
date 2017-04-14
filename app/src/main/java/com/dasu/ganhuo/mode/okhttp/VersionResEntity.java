@@ -1,9 +1,9 @@
-package com.dasu.ganhuo.mode.okhttp.entity;
+package com.dasu.ganhuo.mode.okhttp;
 
 /**
  * Created by suxq on 2017/4/7.
  *
- * fir.im API接口返回版本查询信息
+ * fir.im API接口返回的json数据对象（版本信息）
  */
 
 public class VersionResEntity {

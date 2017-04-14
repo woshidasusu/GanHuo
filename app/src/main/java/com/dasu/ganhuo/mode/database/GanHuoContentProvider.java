@@ -17,8 +17,8 @@ import com.dasu.ganhuo.utils.LogUtils;
  * Created by dasu on 2017/4/12.
  */
 
-public class GankContentProvider extends ContentProvider {
-    private static final String TAG = GankContentProvider.class.getSimpleName();
+public class GanHuoContentProvider extends ContentProvider {
+    private static final String TAG = GanHuoContentProvider.class.getSimpleName();
     private DatabaseHelper mDatabaseHelper;
 
     @Override

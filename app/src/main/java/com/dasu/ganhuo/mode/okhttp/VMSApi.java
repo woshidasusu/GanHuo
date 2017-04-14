@@ -1,7 +1,5 @@
 package com.dasu.ganhuo.mode.okhttp;
 
-import com.dasu.ganhuo.mode.okhttp.entity.VersionResEntity;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -16,6 +14,5 @@ interface VMSApi {
 
     @GET("apps/latest/{id}")
     Call<VersionResEntity> queryVersion(@Path("id") String id, @Query("api_token") String apiToken);
-
 
 }

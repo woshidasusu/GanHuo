@@ -14,7 +14,7 @@ import java.util.LinkedHashMap;
 
 class DatabaseManager {
 
-    static final String DB_NAME = "gank.db";
+    static final String DB_NAME = "ganhuo.db";
 
     static final int DB_VERSION = 1;
 
@@ -27,7 +27,7 @@ class DatabaseManager {
      */
     static LinkedHashMap<String, BaseDbTable> sAllTables = new LinkedHashMap<>();
     static {
-        sAllTables.put(BlogTable.getInstance().getName(), BlogTable.getInstance());
+        sAllTables.put(GanHuoTable.getInstance().getName(), GanHuoTable.getInstance());
         sAllTables.put(PublishDateTable.getInstance().getName(), PublishDateTable.getInstance());
     }
 
@@ -39,14 +39,14 @@ class DatabaseManager {
 
     static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     static {
-        sUriMatcher.addURI(AUTHORITY, BlogTable.getInstance().getName(), BLOG_TABLE);
+        sUriMatcher.addURI(AUTHORITY, GanHuoTable.getInstance().getName(), BLOG_TABLE);
         sUriMatcher.addURI(AUTHORITY, PublishDateTable.getInstance().getName(), PUBLISH_DATE_TABLE);
     }
 
     static String matchUri(Uri uri) {
         switch (sUriMatcher.match(uri)) {
             case BLOG_TABLE:
-                return BlogTable.getInstance().getName();
+                return GanHuoTable.getInstance().getName();
             case PUBLISH_DATE_TABLE:
                 return PublishDateTable.getInstance().getName();
             default:

@@ -1,14 +1,18 @@
-package com.dasu.ganhuo.mode.okhttp.entity;
+package com.dasu.ganhuo.mode.logic.category;
 
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by suxq on 2017/4/13.
+ *
+ * gank.io 上干货数据对象
  */
 
-public class BlogEntity implements Comparable<BlogEntity> {
+public class GanHuoEntity implements Comparable<GanHuoEntity>, Serializable {
     /**
      * {
      * "_id": "57eb0100421aa95de3b8ab00",
@@ -25,10 +29,10 @@ public class BlogEntity implements Comparable<BlogEntity> {
      * "who": "\u4ee3\u7801\u5bb6"
      * }
      */
-    private long _id;
-    private String createdAt;
+    private String _id;
+    private Date createdAt;
     private String desc;
-    private String publishedAt;
+    private Date publishedAt;
     private String source;
     private String type;
     private String url;
@@ -36,20 +40,12 @@ public class BlogEntity implements Comparable<BlogEntity> {
     private boolean used;
     private String who;
 
-    public long get_id() {
+    public String get_id() {
         return _id;
     }
 
-    public void set_id(long _id) {
+    public void set_id(String _id) {
         this._id = _id;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
     }
 
     public String getDesc() {
@@ -60,11 +56,19 @@ public class BlogEntity implements Comparable<BlogEntity> {
         this.desc = desc;
     }
 
-    public String getPublishedAt() {
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getPublishedAt() {
         return publishedAt;
     }
 
-    public void setPublishedAt(String publishedAt) {
+    public void setPublishedAt(Date publishedAt) {
         this.publishedAt = publishedAt;
     }
 
@@ -118,7 +122,7 @@ public class BlogEntity implements Comparable<BlogEntity> {
 
     @Override
     public String toString() {
-        return "BlogEntity{" +
+        return "GanHuoEntity{" +
                 "_id=" + _id +
                 ", createdAt='" + createdAt + '\'' +
                 ", desc='" + desc + '\'' +
@@ -133,7 +137,7 @@ public class BlogEntity implements Comparable<BlogEntity> {
     }
 
     @Override
-    public int compareTo(@NonNull BlogEntity o) {
+    public int compareTo(@NonNull GanHuoEntity o) {
         return o.getPublishedAt().compareTo(this.getPublishedAt());
     }
 }

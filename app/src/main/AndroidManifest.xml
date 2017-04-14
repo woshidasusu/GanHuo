@@ -36,7 +36,7 @@
 
         <provider
             android:authorities="com.dasu.ganhuo.authority"
-            android:name=".mode.database.GankContentProvider"
+            android:name=".mode.database.GanHuoContentProvider"
             android:exported="false"/>
     </application>
 

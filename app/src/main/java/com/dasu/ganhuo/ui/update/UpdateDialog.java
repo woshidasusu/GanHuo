@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.dasu.ganhuo.mode.logic.update.OnCheckUpdateListener;
 import com.dasu.ganhuo.mode.logic.update.UpdateController;
-import com.dasu.ganhuo.mode.okhttp.entity.VersionResEntity;
+import com.dasu.ganhuo.mode.okhttp.VersionResEntity;
 import com.dasu.ganhuo.utils.ToastUtils;
 
 import java.io.File;

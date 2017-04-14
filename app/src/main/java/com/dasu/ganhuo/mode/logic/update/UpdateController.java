@@ -2,14 +2,11 @@ package com.dasu.ganhuo.mode.logic.update;
 
 import android.content.Context;
 
+import com.dasu.ganhuo.mode.okhttp.RetrofitListener;
 import com.dasu.ganhuo.mode.okhttp.VMSController;
-import com.dasu.ganhuo.mode.okhttp.entity.VersionResEntity;
+import com.dasu.ganhuo.mode.okhttp.VersionResEntity;
 import com.dasu.ganhuo.utils.AppUtils;
 import com.dasu.ganhuo.utils.LogUtils;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 /**
@@ -28,10 +25,10 @@ public class UpdateController {
 
     public static void checkUpdate(final Context context, final OnCheckUpdateListener listener) {
         LogUtils.d(TAG, "=====发起版本更新检查请求");
-        VMSController.queryVersion(new Callback<VersionResEntity>() {
+        VMSController.queryVersion(new RetrofitListener<VersionResEntity>() {
             @Override
-            public void onResponse(Call<VersionResEntity> call, Response<VersionResEntity> response) {
-                VersionResEntity version = response.body() != null ? response.body() : null;
+            public void onSuccess(VersionResEntity data) {
+                VersionResEntity version = data;
                 if (version != null) {
                     String newVersionCode = version.getVersion();
                     if (!newVersionCode.equals(AppUtils.getAppVersionCode(context))) {
@@ -55,8 +52,8 @@ public class UpdateController {
             }
 
             @Override
-            public void onFailure(Call<VersionResEntity> call, Throwable t) {
-                LogUtils.e(TAG, "请求失败： ", t);
+            public void onError(String description) {
+
             }
         });
     }

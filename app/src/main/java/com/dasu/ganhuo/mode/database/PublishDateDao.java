@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
-import com.dasu.ganhuo.mode.okhttp.entity.PublishDateEntity;
 import com.dasu.ganhuo.utils.LogUtils;
 
 import java.util.ArrayList;
@@ -20,22 +19,20 @@ public class PublishDateDao {
     private static final String URI = "content://" + DatabaseManager.AUTHORITY + PublishDateTable.getInstance().getName();
 
 
-    public static final List<PublishDateEntity> queryAll(final Context context) {
+    public static final List<String> queryAll(final Context context) {
         Uri uri = Uri.parse(URI);
         String[] projection = new String[]{
             PublishDateTable.DATE
         };
         Cursor c = context.getContentResolver().query(uri, projection,
                 null, null, PublishDateTable.DATE + " DESC");
-        List<PublishDateEntity> result = new ArrayList<>();
+        List<String> result = new ArrayList<>();
         try {
             if (c.moveToFirst()) {
                 LogUtils.d(TAG, "PublishDateDao-->queryAll(): " + c.getCount());
                 for (int i = 0; i < c.getCount(); i++) {
                     c.moveToPosition(i);
-                    PublishDateEntity date = new PublishDateEntity();
-                    date.setDate(c.getString(0));
-                    result.add(date);
+                    result.add(c.getString(0));
                 }
             }
         } finally {
@@ -47,10 +44,10 @@ public class PublishDateDao {
         return result;
     }
 
-    public static final Uri insert(Context context, PublishDateEntity date) {
+    public static final Uri insert(Context context, String date) {
         Uri uri = Uri.parse(URI);
         ContentValues values = new ContentValues();
-        values.put(PublishDateTable.DATE, date.getDate());
+        values.put(PublishDateTable.DATE, date);
 
         Uri returnUri = context.getContentResolver().insert(uri, values);
         return returnUri;

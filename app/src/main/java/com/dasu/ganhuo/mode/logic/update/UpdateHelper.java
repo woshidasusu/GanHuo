@@ -3,7 +3,7 @@ package com.dasu.ganhuo.mode.logic.update;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.dasu.ganhuo.mode.okhttp.entity.VersionResEntity;
+import com.dasu.ganhuo.mode.okhttp.VersionResEntity;
 import com.dasu.ganhuo.utils.FileUtils;
 import com.dasu.ganhuo.utils.LogUtils;
 
