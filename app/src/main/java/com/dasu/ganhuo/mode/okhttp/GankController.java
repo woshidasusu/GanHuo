@@ -112,6 +112,12 @@ public class GankController {
         });
     }
 
+    /**
+     * 获取某一天的干货数据
+     *
+     * @param someday 格式：2017-04-06 yyyy-MM-dd
+     * @param callback
+     */
     public static void getSomedayGanHuo(final String someday, final RetrofitListener<SomedayGanHuoEntity> callback) {
         LogUtils.d(TAG, "[getSomedayGanHuo] 请求" + someday + " 的数据...");
         final String[] date = someday.split("-");
