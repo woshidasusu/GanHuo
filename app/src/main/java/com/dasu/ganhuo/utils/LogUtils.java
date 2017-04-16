@@ -4,8 +4,14 @@ import android.util.Log;
 
 import com.dasu.ganhuo.BuildConfig;
 
+import java.util.Formatter;
+
+
 /**
  * Created by dasu on 2017/4/10.
+ *
+ * Log 工具类，release 自动关闭日志输出
+ * 支持打印当前线程，方法，支持点击方法跳转
  */
 public class LogUtils {
     private static final String TAG = LogUtils.class.getSimpleName();
@@ -53,6 +59,17 @@ public class LogUtils {
         }
         switch (type) {
             case V:
+                break;
+            case D:
+            case I:
+            case W:
+            case E:
+            case A:
+                msg = getHeader() + msg;
+                break;
+        }
+        switch (type) {
+            case V:
                 Log.v(tag, msg);
                 break;
             case D:
@@ -71,5 +88,23 @@ public class LogUtils {
                 Log.wtf(tag, msg);
                 break;
         }
+    }
+
+    private static String getHeader() {
+        StackTraceElement targetElement = Thread.currentThread().getStackTrace()[5];
+        String className = targetElement.getClassName();
+        String[] classNameInfo = className.split("\\.");
+        if (classNameInfo.length > 0) {
+            className = classNameInfo[classNameInfo.length - 1];
+        }
+        if (className.contains("$")) {
+            className = className.split("\\$")[0];
+        }
+        String head = new Formatter().format("Thread: %s, %s(%s.java:%d)" + System.getProperty("line.separator"),
+                Thread.currentThread().getName(),
+                targetElement.getMethodName(),
+                className,
+                targetElement.getLineNumber()).toString();
+        return head;
     }
 }
