@@ -346,4 +346,27 @@ public class TimeUtils {
     public static boolean isLeapYear(int year) {
         return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
     }
+
+    public static String howLongAgo(long time) {
+        long curTime = getCurTimeMills();
+        long span = (curTime - time) / 1000;
+        long aYear = 365 * 24 * 60 * 60;
+        long aMonth = 30 * 24 * 60 * 60;
+        long aDay = 24 * 60 * 60;
+        long aHout = 60 * 60;
+        long aMin = 60;
+        if ((span / aYear) > 1 ) {
+            return (span / aYear) + "年前";
+        } else if ((span / aMonth) > 1) {
+            return (span / aMonth) + "月前";
+        } else if ((span / aDay) > 1) {
+            return (span / aDay) + "天前";
+        } else if ((span / aHout) > 1) {
+            return (span / aHout) + "小时前";
+        } else if ((span / aMin) >= 1) {
+            return (span / aMin) + "分前";
+        } else {
+            return "刚刚";
+        }
+    }
 }

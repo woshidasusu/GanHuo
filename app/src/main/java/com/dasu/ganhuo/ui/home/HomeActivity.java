@@ -6,11 +6,16 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.dasu.ganhuo.R;
+import com.dasu.ganhuo.mode.logic.home.SomedayGanHuoEntity;
 import com.dasu.ganhuo.mode.logic.update.UpdateController;
+import com.dasu.ganhuo.mode.okhttp.GankController;
+import com.dasu.ganhuo.mode.okhttp.RetrofitListener;
 import com.dasu.ganhuo.ui.base.DrawerActivity;
 import com.dasu.ganhuo.ui.update.UpdateDialog;
+import com.dasu.ganhuo.utils.LogUtils;
 
 public class HomeActivity extends DrawerActivity {
+    private static final String TAG = HomeActivity.class.getSimpleName();
     private RecyclerView mGanhuoRv;
 
     @Override
@@ -29,8 +34,11 @@ public class HomeActivity extends DrawerActivity {
     }
 
     private void initVariable() {
-
+        mSomedayGanHuo = new SomedayGanHuoEntity();
     }
+
+    private SomedayGanHuoEntity mSomedayGanHuo;
+    private HomeRecycleAdapter mRecycleAdapter;
 
     private void initView() {
         //添加 toolbar
@@ -39,13 +47,26 @@ public class HomeActivity extends DrawerActivity {
         //init view
         mGanhuoRv = (RecyclerView) findViewById(R.id.rv_home_content);
         mGanhuoRv.setLayoutManager(new LinearLayoutManager(mContext));
-        mGanhuoRv.setAdapter(new HomeRecycleAdapter(null));
+        mRecycleAdapter = new HomeRecycleAdapter(mSomedayGanHuo);
+        mGanhuoRv.setAdapter(mRecycleAdapter);
 
     }
 
     private void loadData() {
         //发起版本更新检查
         UpdateController.checkUpdate(this, new UpdateDialog(this));
+        GankController.getSomedayGanHuo("2017-04-10", new RetrofitListener<SomedayGanHuoEntity>() {
+            @Override
+            public void onSuccess(SomedayGanHuoEntity data) {
+                mRecycleAdapter.setData(data);
+                LogUtils.d(TAG, data.toString());
+            }
+
+            @Override
+            public void onError(String description) {
+
+            }
+        });
     }
 
 

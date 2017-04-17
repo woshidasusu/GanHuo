@@ -4,6 +4,7 @@ import com.dasu.ganhuo.mode.logic.category.GanHuoEntity;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +27,35 @@ public class SomedayGanHuoEntity implements Serializable{
         @SerializedName("福利") private List<GanHuoEntity> meizi;
         @SerializedName("App") private List<GanHuoEntity> app;
         @SerializedName("扩展资源") private List<GanHuoEntity> other;
+
+        public List<List<GanHuoEntity>> getAllList() {
+            List<List<GanHuoEntity>> allList = new ArrayList<>();
+            if (android != null && android.size() > 0) {
+                allList.add(android);
+            }
+            if (ios != null && ios.size() > 0) {
+                allList.add(ios);
+            }
+            if (web != null && web.size() > 0) {
+                allList.add(web);
+            }
+            if (recommend != null && recommend.size() > 0) {
+                allList.add(recommend);
+            }
+            if (video != null && video.size() > 0) {
+                allList.add(video);
+            }
+            if (meizi != null && meizi.size() > 0) {
+                allList.add(meizi);
+            }
+            if (app != null && app.size() > 0) {
+                allList.add(app);
+            }
+            if (other != null && other.size() > 0) {
+                allList.add(other);
+            }
+            return allList;
+        }
     }
 
     public List<String> getCategory() {

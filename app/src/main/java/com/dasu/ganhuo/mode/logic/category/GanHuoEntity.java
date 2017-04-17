@@ -1,6 +1,7 @@
 package com.dasu.ganhuo.mode.logic.category;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -105,6 +106,9 @@ public class GanHuoEntity implements Comparable<GanHuoEntity>, Serializable {
     }
 
     public String getWho() {
+        if (TextUtils.isEmpty(who)) {
+            return "xxx";
+        }
         return who;
     }
 
