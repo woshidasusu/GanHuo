@@ -17,8 +17,24 @@ public class MeiziActivity extends DrawerActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meizi);
+        initVariable();
+        initView();
+        loadData();
+    }
+
+    private void initVariable() {
+
+    }
+
+    private void initView() {
+        //添加 toolbar
         addToolbar((Toolbar)findViewById(R.id.toolbar));
         getSupportActionBar().setTitle("妹子");
+
+    }
+
+    private void loadData() {
+
     }
 
     @Override

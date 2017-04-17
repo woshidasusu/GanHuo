@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_home"
+    android:id="@+id/layout_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,27 +10,11 @@
 
     <include layout="@layout/include_toolbar"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"/>
-
-    <Button
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_home_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="指定类型数据"
-        android:onClick="getSpecifyGanHuo"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="发过干货的日期"
-        android:onClick="getPublishDate"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="获取某天的数据"
-        android:onClick="getSomedayGanhuo"/>
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        />
 
 </LinearLayout>

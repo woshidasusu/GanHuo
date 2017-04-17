@@ -16,6 +16,21 @@ public class CategoryActivity extends DrawerActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
+        initVariable();
+        initView();
+        loadData();
+    }
+
+    private void initVariable() {
+
+    }
+
+    private void initView() {
+
+    }
+
+    private void loadData() {
+
     }
 
     @Override

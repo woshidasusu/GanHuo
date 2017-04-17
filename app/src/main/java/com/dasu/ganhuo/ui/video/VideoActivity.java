@@ -17,8 +17,23 @@ public class VideoActivity extends DrawerActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
+        initVariable();
+        initView();
+        loadData();
+    }
+
+    private void initVariable() {
+
+    }
+
+    private void initView() {
+        //添加 toolbar
         addToolbar((Toolbar)findViewById(R.id.toolbar));
         getSupportActionBar().setTitle("休闲视频");
+    }
+
+    private void loadData() {
+
     }
 
     @Override

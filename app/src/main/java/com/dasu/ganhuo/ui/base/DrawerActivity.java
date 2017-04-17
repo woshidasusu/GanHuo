@@ -60,6 +60,12 @@ public abstract class DrawerActivity extends BaseActivity implements NavigationV
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
     private void initContentView() {
         setContentView(R.layout.activity_drawerlayout);
         ViewGroup viewGroup = (ViewGroup) findViewById(android.R.id.content);

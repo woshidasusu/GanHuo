@@ -1,5 +1,6 @@
 package com.dasu.ganhuo.ui.base;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,10 +24,12 @@ import static android.provider.Settings.ACTION_WIRELESS_SETTINGS;
 public abstract class BaseActivity extends AppCompatActivity implements NetStateListener{
 
     private View mNoNetworkTipView;
+    protected Context mContext;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         ActivityStack.getInstance().pushActivity(this);
         NetBroadcastReceiver.addListener(this);
     }

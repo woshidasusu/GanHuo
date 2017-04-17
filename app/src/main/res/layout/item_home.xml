@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/bg_card"
+              android:padding="16dp"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_home_item_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:text="布局共享（列如所有ACTIVITY拥有相同的布局部分，比如ACTIONBAR，在BASEACTIVITY中写入布局）"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        >
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/icon_lable_green"/>
+        <TextView
+            android:id="@+id/tv_home_item_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/gray"
+            android:background="@color/green"
+            android:text="Android"
+            />
+
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_toLeftOf="@+id/tv_home_item_author"
+            android:layout_alignBottom="@+id/tv_home_item_author"
+            android:src="@drawable/icon_author"/>
+        <TextView
+            android:id="@+id/tv_home_item_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_centerInParent="true"
+            android:textSize="14sp"
+            android:textColor="@color/gray"
+            android:text="dasu"
+            />
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_toLeftOf="@+id/tv_home_item_date"
+            android:src="@drawable/icon_date"/>
+        <TextView
+            android:id="@+id/tv_home_item_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textSize="14sp"
+            android:textColor="@color/gray"
+            android:text="1年前"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>
