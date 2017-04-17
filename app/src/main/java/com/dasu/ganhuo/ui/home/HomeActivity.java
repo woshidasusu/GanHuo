@@ -1,6 +1,7 @@
 package com.dasu.ganhuo.ui.home;
 
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -10,21 +11,33 @@ import com.dasu.ganhuo.mode.logic.home.SomedayGanHuoEntity;
 import com.dasu.ganhuo.mode.logic.update.UpdateController;
 import com.dasu.ganhuo.mode.okhttp.GankController;
 import com.dasu.ganhuo.mode.okhttp.RetrofitListener;
-import com.dasu.ganhuo.ui.base.NetworkListenerActivity;
+import com.dasu.ganhuo.ui.base.DrawerActivity;
 import com.dasu.ganhuo.ui.update.UpdateDialog;
 import com.dasu.ganhuo.utils.LogUtils;
 
 import java.util.List;
 
-public class HomeActivity extends NetworkListenerActivity {
+public class HomeActivity extends DrawerActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        addNoNetworkTipView((ViewGroup) findViewById(R.id.activity_home));
+        addToolbar((Toolbar)findViewById(R.id.toolbar));
+        getSupportActionBar().setTitle("今日推荐");
 
+        addNoNetworkTipView((ViewGroup) findViewById(R.id.activity_home));
+        ViewGroup viewGroup = (ViewGroup) findViewById(R.id.activity_home);
+        LogUtils.d("OOO", viewGroup + "");
         UpdateController.checkUpdate(this, new UpdateDialog(this));
+
+
+    }
+
+    @Override
+    protected int bindMenuId() {
+        return MENU_HOME;
     }
 
     public void getSpecifyGanHuo(View view) {
