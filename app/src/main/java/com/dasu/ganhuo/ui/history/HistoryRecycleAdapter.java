@@ -56,16 +56,27 @@ public class HistoryRecycleAdapter extends RecyclerView.Adapter<HistoryRecycleAd
                 }
             }
         });
-        holder.mTitleTv.setText(data.getTitle());
-        holder.mDateTv.setText(TimeUtils.date2String(data.getPublishedAt(), TimeUtils.DAY_SDF));
+        setTitle(holder.mTitleTv, data);
         setLabel(holder, data.getContent());
+    }
+
+    private void setTitle(TextView titleTv, HtmlDataEntity data) {
+        String str = data.getTitle();
+        String date = TimeUtils.formatDate(data.getPublishedAt());
+        String title;
+        if (str.contains("今日力推")) {
+            title = str.replace("今日", date);
+        } else {
+            title = date + "力推：" + str;
+        }
+        titleTv.setText(title);
     }
 
     private void setLabel(ViewHolder holder, String content) {
         Pattern p = Pattern.compile("<h3>.*</h3>");
         Matcher matcher = p.matcher(content);
         int i=0;
-        while (matcher.find()) {
+        while (matcher.find() && i < 7) {
             String t = matcher.group();
             TextView tv = holder.getTextView(i);
             tv.setVisibility(View.VISIBLE);
@@ -74,7 +85,7 @@ public class HistoryRecycleAdapter extends RecyclerView.Adapter<HistoryRecycleAd
             tv.setBackgroundColor(mContext.getResources().getColor(GanHuoHelper.getTypeColor(type)));
             i++;
         }
-        for (;i < 8; i++) {
+        for (;i < 7; i++) {
             TextView tv = holder.getTextView(i);
             tv.setVisibility(View.GONE);
         }
@@ -94,7 +105,6 @@ public class HistoryRecycleAdapter extends RecyclerView.Adapter<HistoryRecycleAd
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView mTitleTv;
-        TextView mDateTv;
         TextView mLabel1Tv;
         TextView mLabel2Tv;
         TextView mLabel3Tv;
@@ -102,13 +112,11 @@ public class HistoryRecycleAdapter extends RecyclerView.Adapter<HistoryRecycleAd
         TextView mLabel5Tv;
         TextView mLabel6Tv;
         TextView mLabel7Tv;
-        TextView mLabel8Tv;
         List<TextView> mTextViewList;
 
         public ViewHolder(View itemView) {
             super(itemView);
             mTitleTv = (TextView) itemView.findViewById(R.id.tv_history_item_title);
-            mDateTv = (TextView) itemView.findViewById(R.id.tv_history_item_date);
             mLabel1Tv = (TextView) itemView.findViewById(R.id.tv_history_item_type1);
             mLabel2Tv = (TextView) itemView.findViewById(R.id.tv_history_item_type2);
             mLabel3Tv = (TextView) itemView.findViewById(R.id.tv_history_item_type3);
@@ -116,7 +124,6 @@ public class HistoryRecycleAdapter extends RecyclerView.Adapter<HistoryRecycleAd
             mLabel5Tv = (TextView) itemView.findViewById(R.id.tv_history_item_type5);
             mLabel6Tv = (TextView) itemView.findViewById(R.id.tv_history_item_type6);
             mLabel7Tv = (TextView) itemView.findViewById(R.id.tv_history_item_type7);
-            mLabel8Tv = (TextView) itemView.findViewById(R.id.tv_history_item_type8);
             mTextViewList = new ArrayList<>();
             mTextViewList.add(mLabel1Tv);
             mTextViewList.add(mLabel2Tv);
@@ -125,7 +132,6 @@ public class HistoryRecycleAdapter extends RecyclerView.Adapter<HistoryRecycleAd
             mTextViewList.add(mLabel5Tv);
             mTextViewList.add(mLabel6Tv);
             mTextViewList.add(mLabel7Tv);
-            mTextViewList.add(mLabel8Tv);
         }
 
         public TextView getTextView(int index) {

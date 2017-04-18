@@ -2,6 +2,7 @@ package com.dasu.ganhuo.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -177,7 +178,9 @@ public class TimeUtils {
      */
     public static final SimpleDateFormat DEFAULT_SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
-    public static final SimpleDateFormat DAY_SDF = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    public static final SimpleDateFormat YMD_SDF = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    public static final SimpleDateFormat MD_ZH_SDF = new SimpleDateFormat("M月d号", Locale.getDefault());
+    public static final SimpleDateFormat YMD_ZH_SDF = new SimpleDateFormat("yyyy年M月d号", Locale.getDefault());
 
     /**
      * 将时间戳转为时间字符串
@@ -348,25 +351,58 @@ public class TimeUtils {
     }
 
     public static String howLongAgo(long time) {
-        long curTime = getCurTimeMills();
-        long span = (curTime - time) / 1000;
-        long aYear = 365 * 24 * 60 * 60;
-        long aMonth = 30 * 24 * 60 * 60;
-        long aDay = 24 * 60 * 60;
-        long aHout = 60 * 60;
-        long aMin = 60;
-        if ((span / aYear) > 1 ) {
-            return (span / aYear) + "年前";
-        } else if ((span / aMonth) > 1) {
-            return (span / aMonth) + "月前";
-        } else if ((span / aDay) > 1) {
-            return (span / aDay) + "天前";
-        } else if ((span / aHout) > 1) {
-            return (span / aHout) + "小时前";
-        } else if ((span / aMin) >= 1) {
-            return (span / aMin) + "分前";
+        return howLongAgo(time, true);
+    }
+
+    public static String howLongAgo(long time, boolean showHourAgo) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(time);
+        Calendar curC = Calendar.getInstance();
+        curC.setTimeInMillis(getCurTimeMills());
+        if (curC.get(Calendar.YEAR) > c.get(Calendar.YEAR)) {
+            return (curC.get(Calendar.YEAR) - c.get(Calendar.YEAR)) + "年前";
+        } else if (curC.get(Calendar.DAY_OF_YEAR) > c.get(Calendar.DAY_OF_YEAR)) {
+            int day = curC.get(Calendar.DAY_OF_YEAR) - c.get(Calendar.DAY_OF_YEAR);
+            if (day == 1) {
+                return "昨天";
+            } else if (day == 2) {
+                return "前天";
+            } else {
+                return day + "天前";
+            }
+        } else if (!showHourAgo) {
+            return "今天";
+        } else if (curC.get(Calendar.HOUR_OF_DAY) > c.get(Calendar.HOUR_OF_DAY)) {
+            return (curC.get(Calendar.HOUR_OF_DAY) - c.get(Calendar.HOUR_OF_DAY)) + "小时前";
+        } else if (curC.get(Calendar.MINUTE) > c.get(Calendar.MINUTE)) {
+            return (curC.get(Calendar.MINUTE) - c.get(Calendar.MINUTE)) + "分钟前";
         } else {
             return "刚刚";
         }
     }
+
+    /**
+     * 同年的只显示月日， 4月18号
+     * 不同年的显示年月日 2016年10月10号
+     *
+     * @param date
+     * @return
+     */
+    public static String formatDate(Date date) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        Calendar curC = Calendar.getInstance();
+        curC.setTimeInMillis(getCurTimeMills());
+        int day = curC.get(Calendar.DAY_OF_YEAR) - c.get(Calendar.DAY_OF_YEAR);
+        if (day == 0) {
+            return "今日";
+        } else if (day == 1) {
+            return "昨日";
+        } else if (c.get(Calendar.YEAR) == curC.get(Calendar.YEAR)) {
+            return date2String(date, MD_ZH_SDF);
+        } else {
+            return date2String(date, YMD_ZH_SDF);
+        }
+    }
+
 }

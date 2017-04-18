@@ -34,7 +34,7 @@ public class HomeController {
     public void loadBaseData() {
         //发起版本更新检查
         UpdateController.checkUpdate(mContext, new UpdateDialog(mContext));
-        String today = TimeUtils.getCurTimeString(TimeUtils.DAY_SDF);
+        String today = TimeUtils.getCurTimeString(TimeUtils.YMD_SDF);
         GankController.getSomedayGanHuo(today, new RetrofitListener<SomedayGanHuoEntity>() {
             @Override
             public void onSuccess(SomedayGanHuoEntity data) {
