@@ -7,6 +7,10 @@
             android:icon="@drawable/home_icon_selector"
             android:title="今日推荐"/>
         <item
+            android:id="@+id/nav_history"
+            android:icon="@drawable/icon_history"
+            android:title="往期推荐"/>
+        <item
             android:id="@+id/nav_category"
             android:icon="@drawable/category_icon_selector"
             android:title="分类浏览"/>

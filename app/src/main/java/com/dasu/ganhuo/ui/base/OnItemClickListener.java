@@ -1,4 +1,4 @@
-package com.dasu.ganhuo.ui.view;
+package com.dasu.ganhuo.ui.base;
 
 import android.view.View;
 

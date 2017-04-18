@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import com.dasu.ganhuo.R;
 import com.dasu.ganhuo.ui.about.AboutActivity;
 import com.dasu.ganhuo.ui.category.CategoryActivity;
+import com.dasu.ganhuo.ui.history.HistoryActivity;
 import com.dasu.ganhuo.ui.home.HomeActivity;
 import com.dasu.ganhuo.ui.meizi.MeiziActivity;
 import com.dasu.ganhuo.ui.reading.ReadingActivity;
@@ -34,6 +35,7 @@ public abstract class DrawerActivity extends BaseActivity implements NavigationV
 
     //维护所有menu，子类继承该类时需实现绑定某一 menu
     protected static final int MENU_HOME = R.id.nav_home;
+    protected static final int MENU_HISTORY = R.id.nav_history;
     protected static final int MENU_CATEGORY = R.id.nav_category;
     protected static final int MENU_READING = R.id.nav_reading;
     protected static final int MENU_VIDEO = R.id.nav_video;
@@ -104,6 +106,11 @@ public abstract class DrawerActivity extends BaseActivity implements NavigationV
                 startActivity(intent);
                 ActivityStack.getInstance().popAndFinishActivity(this);
                 break;
+            case MENU_HISTORY:
+                intent.setClass(this, HistoryActivity.class);
+                startActivity(intent);
+                ActivityStack.getInstance().popAndFinishActivity(this);
+                break;
             case MENU_CATEGORY:
                 intent.setClass(this, CategoryActivity.class);
                 startActivity(intent);
@@ -167,7 +174,12 @@ public abstract class DrawerActivity extends BaseActivity implements NavigationV
         return mDrawerLayout;
     }
 
-
+    /**
+     * 如果子类页面需要有Toolbar的，在xml布局里添加相应view，在onCreate()里将初始化后的toolbar对象传递进来
+     * 基类负责对toolbar进行基本的配置
+     *
+     * @param toolbar
+     */
     protected void addToolbar(Toolbar toolbar) {
         if (toolbar == null) {
             return;

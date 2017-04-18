@@ -7,9 +7,10 @@
 
     <include layout="@layout/include_toolbar"/>
 
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_meizi_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="妹子"/>
+        android:layout_height="match_parent"
+        android:padding="5dp"/>
 
 </LinearLayout>

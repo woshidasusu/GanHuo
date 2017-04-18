@@ -31,4 +31,16 @@ interface GankApi {
      */
     @GET("day/{y}/{M}/{d}")
     Call<GankResEntity> getSomedayGanHuo(@Path("y") String year, @Path("M") String month, @Path("d") String day);
+
+    /**
+     * 获取某一天的网页数据
+     */
+    @GET("history/content/day/{y}/{M}/{d}")
+    Call<GankResEntity> getSomedayHtmlData(@Path("y") String year, @Path("M") String month, @Path("d") String day);
+
+    /**
+     * 获取历史的网页数据
+     */
+    @GET("history/content/{count}/{page}")
+    Call<GankResEntity> getHistoryHtmlData(@Path("count") int count, @Path("page") int page);
 }

@@ -4,19 +4,22 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.dasu.ganhuo.R;
+import com.dasu.ganhuo.mode.logic.category.GanHuoEntity;
+import com.dasu.ganhuo.mode.logic.home.HomeController;
 import com.dasu.ganhuo.mode.logic.home.SomedayGanHuoEntity;
-import com.dasu.ganhuo.mode.logic.update.UpdateController;
-import com.dasu.ganhuo.mode.okhttp.GankController;
-import com.dasu.ganhuo.mode.okhttp.RetrofitListener;
 import com.dasu.ganhuo.ui.base.DrawerActivity;
-import com.dasu.ganhuo.ui.update.UpdateDialog;
-import com.dasu.ganhuo.utils.LogUtils;
+import com.dasu.ganhuo.ui.base.OnItemClickListener;
+import com.dasu.ganhuo.utils.ToastUtils;
 
-public class HomeActivity extends DrawerActivity {
+/**
+ * 今日推荐页面，只负责界面数据的展示，业务逻辑交由{@link HomeController} 负责
+ * 双方互相持有引用，可直接交互
+ */
+public class HomeActivity extends DrawerActivity implements OnItemClickListener<GanHuoEntity> {
     private static final String TAG = HomeActivity.class.getSimpleName();
-    private RecyclerView mGanhuoRv;
 
     @Override
     protected int bindMenuId() {
@@ -30,14 +33,24 @@ public class HomeActivity extends DrawerActivity {
 
         initVariable();
         initView();
-        loadData();
+        mHomeController.loadBaseData();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    //今日的干货数据
+    private SomedayGanHuoEntity mSomedayGanHuo;
+    private HomeController mHomeController;
 
     private void initVariable() {
         mSomedayGanHuo = new SomedayGanHuoEntity();
+        mHomeController = new HomeController(this);
     }
 
-    private SomedayGanHuoEntity mSomedayGanHuo;
+    private RecyclerView mGanhuoRv;
     private HomeRecycleAdapter mRecycleAdapter;
 
     private void initView() {
@@ -49,28 +62,22 @@ public class HomeActivity extends DrawerActivity {
         mGanhuoRv.setLayoutManager(new LinearLayoutManager(mContext));
         mRecycleAdapter = new HomeRecycleAdapter(mSomedayGanHuo);
         mGanhuoRv.setAdapter(mRecycleAdapter);
-
+        mRecycleAdapter.setOnItemClickListener(this);
     }
 
-    private void loadData() {
-        //发起版本更新检查
-        UpdateController.checkUpdate(this, new UpdateDialog(this));
-        GankController.getSomedayGanHuo("2017-04-10", new RetrofitListener<SomedayGanHuoEntity>() {
-            @Override
-            public void onSuccess(SomedayGanHuoEntity data) {
-                mRecycleAdapter.setData(data);
-                LogUtils.d(TAG, data.toString());
-            }
-
-            @Override
-            public void onError(String description) {
-
-            }
-        });
+    /**
+     * 与HomeController交互的接口，更新今日的干货列表
+     *
+     * @param somedayGanHuo
+     */
+    public void updateGanhuoRv(SomedayGanHuoEntity somedayGanHuo) {
+        mSomedayGanHuo = somedayGanHuo;
+        mRecycleAdapter.setData(mSomedayGanHuo);
     }
 
-
-
-
-
+    @Override
+    public void onItemClick(View view, GanHuoEntity data, int position) {
+        //todo 列表项点击事件
+        ToastUtils.show(mContext, data.getType());
+    }
 }

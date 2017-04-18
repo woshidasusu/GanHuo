@@ -1,0 +1,138 @@
+package com.dasu.ganhuo.ui.history;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.dasu.ganhuo.R;
+import com.dasu.ganhuo.mode.logic.category.GanHuoHelper;
+import com.dasu.ganhuo.mode.logic.home.HtmlDataEntity;
+import com.dasu.ganhuo.ui.base.OnItemClickListener;
+import com.dasu.ganhuo.utils.TimeUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * Created by dasu on 2017/4/18.
+ */
+
+public class HistoryRecycleAdapter extends RecyclerView.Adapter<HistoryRecycleAdapter.ViewHolder> {
+
+    private Context mContext;
+    private List<HtmlDataEntity> mDataList;
+    private OnItemClickListener<HtmlDataEntity> mClickListener;
+
+    public HistoryRecycleAdapter(List<HtmlDataEntity> data) {
+        setData(data);
+    }
+
+    @Override
+    public int getItemCount() {
+        return mDataList != null ? mDataList.size() : 0;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        mContext = parent.getContext();
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_history, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final HtmlDataEntity data = mDataList.get(position);
+        final int posi = position;
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mClickListener != null) {
+                    mClickListener.onItemClick(v, data, posi);
+                }
+            }
+        });
+        holder.mTitleTv.setText(data.getTitle());
+        holder.mDateTv.setText(TimeUtils.date2String(data.getPublishedAt(), TimeUtils.DAY_SDF));
+        setLabel(holder, data.getContent());
+    }
+
+    private void setLabel(ViewHolder holder, String content) {
+        Pattern p = Pattern.compile("<h3>.*</h3>");
+        Matcher matcher = p.matcher(content);
+        int i=0;
+        while (matcher.find()) {
+            String t = matcher.group();
+            TextView tv = holder.getTextView(i);
+            tv.setVisibility(View.VISIBLE);
+            String type = t.substring(4, t.lastIndexOf("<")).trim();
+            tv.setText(type);
+            tv.setBackgroundColor(mContext.getResources().getColor(GanHuoHelper.getTypeColor(type)));
+            i++;
+        }
+        for (;i < 8; i++) {
+            TextView tv = holder.getTextView(i);
+            tv.setVisibility(View.GONE);
+        }
+    }
+
+    public void setData(List<HtmlDataEntity> data) {
+        if (data == null || data.size() == 0) {
+            return;
+        }
+        mDataList = data;
+        notifyDataSetChanged();
+    }
+
+    public void setOnItemClickListener(OnItemClickListener<HtmlDataEntity> listener) {
+        mClickListener = listener;
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+        TextView mTitleTv;
+        TextView mDateTv;
+        TextView mLabel1Tv;
+        TextView mLabel2Tv;
+        TextView mLabel3Tv;
+        TextView mLabel4Tv;
+        TextView mLabel5Tv;
+        TextView mLabel6Tv;
+        TextView mLabel7Tv;
+        TextView mLabel8Tv;
+        List<TextView> mTextViewList;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            mTitleTv = (TextView) itemView.findViewById(R.id.tv_history_item_title);
+            mDateTv = (TextView) itemView.findViewById(R.id.tv_history_item_date);
+            mLabel1Tv = (TextView) itemView.findViewById(R.id.tv_history_item_type1);
+            mLabel2Tv = (TextView) itemView.findViewById(R.id.tv_history_item_type2);
+            mLabel3Tv = (TextView) itemView.findViewById(R.id.tv_history_item_type3);
+            mLabel4Tv = (TextView) itemView.findViewById(R.id.tv_history_item_type4);
+            mLabel5Tv = (TextView) itemView.findViewById(R.id.tv_history_item_type5);
+            mLabel6Tv = (TextView) itemView.findViewById(R.id.tv_history_item_type6);
+            mLabel7Tv = (TextView) itemView.findViewById(R.id.tv_history_item_type7);
+            mLabel8Tv = (TextView) itemView.findViewById(R.id.tv_history_item_type8);
+            mTextViewList = new ArrayList<>();
+            mTextViewList.add(mLabel1Tv);
+            mTextViewList.add(mLabel2Tv);
+            mTextViewList.add(mLabel3Tv);
+            mTextViewList.add(mLabel4Tv);
+            mTextViewList.add(mLabel5Tv);
+            mTextViewList.add(mLabel6Tv);
+            mTextViewList.add(mLabel7Tv);
+            mTextViewList.add(mLabel8Tv);
+        }
+
+        public TextView getTextView(int index) {
+            if (mTextViewList != null && mTextViewList.size() > index) {
+                return mTextViewList.get(index);
+            }
+            return null;
+        }
+    }
+}

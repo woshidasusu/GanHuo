@@ -34,7 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
+        <activity android:name=".ui.history.HistoryActivity" android:launchMode="standard"/>
         <activity android:name=".ui.category.CategoryActivity" android:launchMode="standard"/>
         <activity android:name=".ui.reading.ReadingActivity" android:launchMode="standard"/>
         <activity android:name=".ui.video.VideoActivity" android:launchMode="standard"/>
