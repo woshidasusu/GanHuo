@@ -57,17 +57,15 @@ public abstract class DrawerActivity extends BaseActivity implements NavigationV
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
-        mDrawerLayout.addDrawerListener(addDrawerListener());
         mCurrentMenu = bindMenuId();
-
+        if (mCurrentMenu != 0) {
+            mNavigationView.setCheckedItem(mCurrentMenu);
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (mCurrentMenu != 0) {
-            mNavigationView.setCheckedItem(mCurrentMenu);
-        }
     }
 
     private void initContentView() {
@@ -106,32 +104,32 @@ public abstract class DrawerActivity extends BaseActivity implements NavigationV
             case MENU_HOME:
                 intent.setClass(this, HomeActivity.class);
                 startActivity(intent);
-//                ActivityStack.getInstance().popAndFinishActivity(this);
+                ActivityStack.getInstance().popAndFinishActivity(this);
                 break;
             case MENU_HISTORY:
                 intent.setClass(this, HistoryActivity.class);
                 startActivity(intent);
-//                ActivityStack.getInstance().popAndFinishActivity(this);
+                ActivityStack.getInstance().popAndFinishActivity(this);
                 break;
             case MENU_CATEGORY:
                 intent.setClass(this, CategoryActivity.class);
                 startActivity(intent);
-//                ActivityStack.getInstance().popAndFinishActivity(this);
+                ActivityStack.getInstance().popAndFinishActivity(this);
                 break;
             case MENU_READING:
                 intent.setClass(this, ReadingActivity.class);
                 startActivity(intent);
-//                ActivityStack.getInstance().popAndFinishActivity(this);
+                ActivityStack.getInstance().popAndFinishActivity(this);
                 break;
             case MENU_VIDEO:
                 intent.setClass(this, VideoActivity.class);
                 startActivity(intent);
-//                ActivityStack.getInstance().popAndFinishActivity(this);
+                ActivityStack.getInstance().popAndFinishActivity(this);
                 break;
             case MENU_MEIZI:
                 intent.setClass(this, MeiziActivity.class);
                 startActivity(intent);
-//                ActivityStack.getInstance().popAndFinishActivity(this);
+                ActivityStack.getInstance().popAndFinishActivity(this);
                 break;
             case MENU_ABOUT:
                 intent.setClass(this, AboutActivity.class);
@@ -141,32 +139,19 @@ public abstract class DrawerActivity extends BaseActivity implements NavigationV
                 closeDrawer();
                 break;
         }
-        closeDrawer();
         return true;
     }
 
-    private DrawerLayout.DrawerListener addDrawerListener() {
-        return new DrawerLayout.DrawerListener() {
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-
-            }
-
+    private void closeThenStartActivity(final Intent intent) {
+        final DrawerLayout.DrawerListener drawerListener = new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerClosed(View drawerView) {
-
-            }
-
-            @Override
-            public void onDrawerStateChanged(int newState) {
-
+                startActivity(intent);
             }
         };
+        mDrawerLayout.removeDrawerListener(drawerListener);
+        mDrawerLayout.addDrawerListener(drawerListener);
+        closeDrawer();
     }
 
     @Override

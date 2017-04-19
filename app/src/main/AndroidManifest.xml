@@ -27,18 +27,18 @@
         android:name=".GanhuoApplication"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.home.HomeActivity"
-            android:launchMode="singleInstance">
+            android:launchMode="standard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.history.HistoryActivity" android:launchMode="singleInstance"/>
-        <activity android:name=".ui.category.CategoryActivity" android:launchMode="singleInstance"/>
-        <activity android:name=".ui.reading.ReadingActivity" android:launchMode="singleInstance"/>
-        <activity android:name=".ui.video.VideoActivity" android:launchMode="singleInstance"/>
-        <activity android:name=".ui.meizi.MeiziActivity" android:launchMode="singleInstance"/>
+        <activity android:name=".ui.history.HistoryActivity" android:launchMode="standard"/>
+        <activity android:name=".ui.category.CategoryActivity" android:launchMode="standard"/>
+        <activity android:name=".ui.reading.ReadingActivity" android:launchMode="standard"/>
+        <activity android:name=".ui.video.VideoActivity" android:launchMode="standard"/>
+        <activity android:name=".ui.meizi.MeiziActivity" android:launchMode="standard"/>
         <activity android:name=".ui.about.AboutActivity"/>
 
         <activity android:name=".DebugActivity"/>
