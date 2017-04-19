@@ -405,4 +405,14 @@ public class TimeUtils {
         }
     }
 
+    /**
+     * 调整时间为北京时间
+     *
+     * @param date
+     * @return
+     */
+    public static long adjustDate(Date date) {
+        return date.getTime() + (date.getTimezoneOffset() * 60 * 1000);
+    }
+
 }

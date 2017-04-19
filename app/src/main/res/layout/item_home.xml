@@ -13,7 +13,6 @@
     <TextView
         android:id="@+id/tv_home_item_title"
         style="@style/recycler_item_title"
-        android:text="布局共享（列如所有ACTIVITY拥有相同的布局部分，比如ACTIONBAR，在BASEACTIVITY中写入布局）"
         />
 
     <RelativeLayout

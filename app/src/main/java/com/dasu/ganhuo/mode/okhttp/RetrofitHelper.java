@@ -21,7 +21,7 @@ class RetrofitHelper {
 
     private static void init() {
         mGson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd HH:mm:SS")
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
                 .serializeNulls()
                 .create();
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -42,8 +42,4 @@ class RetrofitHelper {
                 .addConverterFactory(GsonConverterFactory.create(mGson))
                 .build();
     }
-
-
-
-
 }

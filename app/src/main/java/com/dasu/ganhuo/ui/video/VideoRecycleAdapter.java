@@ -65,7 +65,7 @@ public class VideoRecycleAdapter extends RecyclerView.Adapter<VideoRecycleAdapte
     }
 
     private void setDate(Date date, TextView tv) {
-        String time = TimeUtils.howLongAgo(date.getTime());
+        String time = TimeUtils.howLongAgo(TimeUtils.adjustDate(date));
         tv.setText(time);
     }
 

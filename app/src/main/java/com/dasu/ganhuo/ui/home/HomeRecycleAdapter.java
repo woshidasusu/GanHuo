@@ -77,7 +77,7 @@ public class HomeRecycleAdapter extends RecyclerView.Adapter<HomeRecycleAdapter.
     }
 
     private void setDate(Date date, TextView tv) {
-        String time = TimeUtils.howLongAgo(date.getTime());
+        String time = TimeUtils.howLongAgo(TimeUtils.adjustDate(date));
         tv.setText(time);
     }
 
