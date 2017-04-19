@@ -1,12 +1,15 @@
 package com.dasu.ganhuo.ui.meizi;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.dasu.ganhuo.R;
 import com.dasu.ganhuo.mode.logic.category.GanHuoEntity;
 import com.dasu.ganhuo.ui.base.OnItemClickListener;
@@ -19,6 +22,8 @@ import java.util.List;
  */
 
 public class MeiziRecycleAdapter extends RecyclerView.Adapter<MeiziRecycleAdapter.ViewHolder> {
+
+    private static final String TAG = MeiziRecycleAdapter.class.getSimpleName();
 
     private Context mContext;
     private List<GanHuoEntity> mDataList;
@@ -41,7 +46,7 @@ public class MeiziRecycleAdapter extends RecyclerView.Adapter<MeiziRecycleAdapte
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         final GanHuoEntity data = mDataList.get(position);
         final int posi = position;
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -52,10 +57,19 @@ public class MeiziRecycleAdapter extends RecyclerView.Adapter<MeiziRecycleAdapte
                 }
             }
         });
+        holder.itemView.setVisibility(View.GONE);
         Glide.with(mContext)
                 .load(data.getUrl())
-                .crossFade()
-                .into(holder.mMeiziIv);
+                .asBitmap()
+                .placeholder(R.drawable.bg_placeholder_blank)
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        holder.itemView.setVisibility(View.VISIBLE);
+                        holder.mMeiziIv.setOriginSize(resource.getWidth(), resource.getHeight());
+                        holder.mMeiziIv.setImageBitmap(resource);
+                    }
+                });
     }
 
     public void setData(List<GanHuoEntity> data) {

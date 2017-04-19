@@ -46,6 +46,11 @@ public class ScaleImageView extends ImageView {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (originWidth > 0 && originHeight > 0) {
             float scale = originWidth * 1.0f / originHeight;
+            if (scale < 0.7f) {
+                scale = 0.7f;
+            } else if (scale > 1.3f) {
+                scale = 1.3f;
+            }
             int width = MeasureSpec.getSize(widthMeasureSpec);
             int height = MeasureSpec.getSize(heightMeasureSpec);
             if (width > 0) {
