@@ -4,14 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.dasu.ganhuo.R;
 import com.dasu.ganhuo.mode.logic.history.HistoryController;
 import com.dasu.ganhuo.mode.logic.home.HtmlDataEntity;
-import com.dasu.ganhuo.ui.base.DrawerActivity;
 import com.dasu.ganhuo.ui.base.OnItemClickListener;
+import com.dasu.ganhuo.ui.base.SubpageWithToolbarActivity;
 import com.dasu.ganhuo.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -20,15 +19,10 @@ import java.util.List;
 /**
  * Created by dasu on 2017/4/18.
  *
- * 往期推荐界面
+ * 往期推荐界面，二级界面
  */
 
-public class HistoryActivity extends DrawerActivity implements OnItemClickListener<HtmlDataEntity> {
-
-    @Override
-    protected int bindMenuId() {
-        return MENU_HISTORY;
-    }
+public class HistoryActivity extends SubpageWithToolbarActivity implements OnItemClickListener<HtmlDataEntity> {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,7 +51,6 @@ public class HistoryActivity extends DrawerActivity implements OnItemClickListen
 
     private void initView() {
         //添加 toolbar
-        addToolbar((Toolbar)findViewById(R.id.toolbar));
         getSupportActionBar().setTitle("往期推荐");
         mHistoryRv = (RecyclerView) findViewById(R.id.rv_history_content);
         mHistoryRv.setLayoutManager(new LinearLayoutManager(mContext));

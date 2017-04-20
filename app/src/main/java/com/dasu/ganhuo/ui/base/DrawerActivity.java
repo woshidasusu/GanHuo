@@ -29,6 +29,7 @@ import com.dasu.ganhuo.utils.ToastUtils;
  * Created by suxq on 2017/4/17.
  * <p>
  * 带有侧滑菜单的主页面，支持设置是否需要有toolbar
+ * 只有主菜单页面才需要继承该类，二级菜单无需继承该类
  */
 
 public abstract class DrawerActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -102,42 +103,30 @@ public abstract class DrawerActivity extends BaseActivity implements NavigationV
         switch (item.getItemId()) {
             case MENU_HOME:
                 intent.setClass(this, HomeActivity.class);
-                startActivity(intent);
-                ActivityStack.getInstance().popAndFinishActivity(this);
                 break;
             case MENU_HISTORY:
                 intent.setClass(this, HistoryActivity.class);
-                startActivity(intent);
-                ActivityStack.getInstance().popAndFinishActivity(this);
                 break;
             case MENU_CATEGORY:
                 intent.setClass(this, CategoryActivity.class);
-                startActivity(intent);
-                ActivityStack.getInstance().popAndFinishActivity(this);
                 break;
             case MENU_READING:
                 intent.setClass(this, ReadingActivity.class);
-                startActivity(intent);
-                ActivityStack.getInstance().popAndFinishActivity(this);
                 break;
             case MENU_VIDEO:
                 intent.setClass(this, VideoActivity.class);
-                startActivity(intent);
-                ActivityStack.getInstance().popAndFinishActivity(this);
                 break;
             case MENU_MEIZI:
                 intent.setClass(this, MeiziActivity.class);
-                startActivity(intent);
-                ActivityStack.getInstance().popAndFinishActivity(this);
                 break;
             case MENU_ABOUT:
                 intent.setClass(this, AboutActivity.class);
-                startActivity(intent);
                 break;
             default:
                 closeDrawer();
                 break;
         }
+        startActivity(intent);
         return true;
     }
 

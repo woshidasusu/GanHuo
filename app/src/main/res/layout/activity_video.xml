@@ -8,8 +8,6 @@
         android:orientation="vertical"/>-->
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <include layout="@layout/include_toolbar"/>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_video_content"
         android:layout_width="match_parent"

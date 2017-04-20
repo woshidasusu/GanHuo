@@ -4,14 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.dasu.ganhuo.R;
 import com.dasu.ganhuo.mode.logic.category.GanHuoEntity;
 import com.dasu.ganhuo.mode.logic.video.VideoController;
-import com.dasu.ganhuo.ui.base.DrawerActivity;
 import com.dasu.ganhuo.ui.base.OnItemClickListener;
+import com.dasu.ganhuo.ui.base.SubpageWithToolbarActivity;
 import com.dasu.ganhuo.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -20,16 +19,11 @@ import java.util.List;
 /**
  * Created by dasu on 2017/4/14.
  *
- * 休闲视频界面，只展示界面数据，数据的获取加载交由{@link VideoController}负责
+ * 休闲视频界面，二级界面，只展示界面数据，数据的获取加载交由{@link VideoController}负责
  * 双方相互持有引用，可直接交互
  */
 
-public class VideoActivity extends DrawerActivity implements OnItemClickListener<GanHuoEntity> {
-
-    @Override
-    protected int bindMenuId() {
-        return MENU_VIDEO;
-    }
+public class VideoActivity extends SubpageWithToolbarActivity implements OnItemClickListener<GanHuoEntity> {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,7 +52,6 @@ public class VideoActivity extends DrawerActivity implements OnItemClickListener
 
     private void initView() {
         //添加 toolbar
-        addToolbar((Toolbar)findViewById(R.id.toolbar));
         getSupportActionBar().setTitle("休闲视频");
         mVideoRv = (RecyclerView) findViewById(R.id.rv_video_content);
         mVideoRv.setLayoutManager(new LinearLayoutManager(this));

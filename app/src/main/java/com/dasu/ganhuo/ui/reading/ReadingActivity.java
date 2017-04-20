@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.dasu.ganhuo.R;
-import com.dasu.ganhuo.ui.base.DrawerActivity;
+import com.dasu.ganhuo.ui.base.BaseActivity;
 
 /**
  * Created by suxq on 2017/4/14.
  */
 
-public class ReadingActivity extends DrawerActivity {
+public class ReadingActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,8 +33,4 @@ public class ReadingActivity extends DrawerActivity {
 
     }
 
-    @Override
-    protected int bindMenuId() {
-        return MENU_READING;
-    }
 }

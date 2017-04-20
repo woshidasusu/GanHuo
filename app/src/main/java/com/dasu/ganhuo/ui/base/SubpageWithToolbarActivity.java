@@ -28,6 +28,7 @@ public abstract class SubpageWithToolbarActivity extends BaseActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     private void initContentView() {

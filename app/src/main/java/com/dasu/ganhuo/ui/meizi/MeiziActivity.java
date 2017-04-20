@@ -4,29 +4,25 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.dasu.ganhuo.R;
 import com.dasu.ganhuo.mode.logic.category.GanHuoEntity;
 import com.dasu.ganhuo.mode.logic.meizi.MeiziController;
-import com.dasu.ganhuo.ui.base.DrawerActivity;
 import com.dasu.ganhuo.ui.base.OnItemClickListener;
+import com.dasu.ganhuo.ui.base.SubpageWithToolbarActivity;
 import com.dasu.ganhuo.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by suxq on 2017/4/14.
+ * Created by dasu on 2017/4/14.
+ *
+ * 瀑布流图片界面，二级界面
  */
 
-public class MeiziActivity extends DrawerActivity implements OnItemClickListener<GanHuoEntity> {
-
-    @Override
-    protected int bindMenuId() {
-        return MENU_MEIZI;
-    }
+public class MeiziActivity extends SubpageWithToolbarActivity implements OnItemClickListener<GanHuoEntity> {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,7 +46,6 @@ public class MeiziActivity extends DrawerActivity implements OnItemClickListener
 
     private void initView() {
         //添加 toolbar
-        addToolbar((Toolbar)findViewById(R.id.toolbar));
         getSupportActionBar().setTitle("妹子");
 
         mMeiziRv = (RecyclerView) findViewById(R.id.rv_meizi_content);
