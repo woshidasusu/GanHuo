@@ -3,6 +3,7 @@ package com.dasu.ganhuo.ui.category;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -64,4 +65,16 @@ public class CategoryActivity extends BaseActivity {
             }
         };
     }
+
+    public Fragment getCurrentFragment() {
+        if (mPagerAdapter != null) {
+            return mPagerAdapter.getCurrentFragment();
+        }
+        return null;
+    }
+
+    public CategoryController getCategoryController() {
+        return mCategoryController;
+    }
+
 }

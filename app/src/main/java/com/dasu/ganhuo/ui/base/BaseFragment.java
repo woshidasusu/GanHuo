@@ -21,6 +21,7 @@ public abstract class BaseFragment extends Fragment {
 
     private boolean isFragmentVisible;
     private boolean isReuseView;
+    private boolean isFirstVisible;
     private View rootView;
 
 
@@ -79,6 +80,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     private void initVariable() {
+        isFirstVisible = false;
         isFragmentVisible = false;
         rootView = null;
         isReuseView = true;

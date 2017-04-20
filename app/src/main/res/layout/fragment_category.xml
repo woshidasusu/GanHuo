@@ -4,13 +4,9 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_category"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_category_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        android:text="Fragment"/>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
