@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 import com.dasu.ganhuo.R;
 import com.dasu.ganhuo.mode.logic.category.CategoryController;
-import com.dasu.ganhuo.ui.base.SwipeRefreshPagerActivity;
+import com.dasu.ganhuo.ui.base.BaseActivity;
 
 /**
  * Created by dasu on 2017/4/14.
@@ -18,7 +18,7 @@ import com.dasu.ganhuo.ui.base.SwipeRefreshPagerActivity;
  * 分类浏览的主界面
  */
 
-public class CategoryActivity extends SwipeRefreshPagerActivity {
+public class CategoryActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,16 +54,6 @@ public class CategoryActivity extends SwipeRefreshPagerActivity {
         mBackBtn = (ImageView) findViewById(R.id.ibtn_category_back);
         mBackBtn.setOnClickListener(onBackBtnClick());
         mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.layout_category_content);
-    }
-
-    @Override
-    public SwipeRefreshLayout findSwipeRefreshLayout() {
-        return mRefreshLayout;
-    }
-
-    @Override
-    public ViewPager findViewPager() {
-        return mViewPager;
     }
 
     private View.OnClickListener onBackBtnClick() {
