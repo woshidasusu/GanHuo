@@ -2,21 +2,18 @@ package com.dasu.ganhuo.ui.about;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.dasu.ganhuo.R;
-import com.dasu.ganhuo.ui.base.ActivityStack;
-import com.dasu.ganhuo.ui.base.BaseActivity;
+import com.dasu.ganhuo.ui.base.SubpageWithToolbarActivity;
 
 /**
  * Created by dasu on 2017/4/17.
  */
 
-public class AboutActivity extends BaseActivity {
+public class AboutActivity extends SubpageWithToolbarActivity {
 
     private static final String GITHUB = "https://github.com/woshidasusu";
     private static final String JIANSHU = "http://www.jianshu.com/u/bb52a2918096";
@@ -35,10 +32,7 @@ public class AboutActivity extends BaseActivity {
 
     private void initView() {
         //init toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("关于");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //init imageview me
         mMeIv = (ImageView) findViewById(R.id.iv_about_me);
         Glide.with(this).load(R.drawable.img_me)
@@ -70,15 +64,5 @@ public class AboutActivity extends BaseActivity {
     private void setText() {
         mProjectTv.setText(mProjectIntroduction);
         mThanksTv.setText(mThanksBy);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                ActivityStack.getInstance().popAndFinishActivity();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

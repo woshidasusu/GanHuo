@@ -28,7 +28,7 @@ import com.dasu.ganhuo.utils.ToastUtils;
 /**
  * Created by suxq on 2017/4/17.
  * <p>
- * DrawerActivity 是提供有滑动菜单的基本类，封装了以DrawerLayout为根布局.
+ * 带有侧滑菜单的主页面，支持设置是否需要有toolbar
  */
 
 public abstract class DrawerActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -69,10 +69,9 @@ public abstract class DrawerActivity extends BaseActivity implements NavigationV
     }
 
     private void initContentView() {
-        setContentView(R.layout.activity_drawerlayout);
         ViewGroup viewGroup = (ViewGroup) findViewById(android.R.id.content);
         viewGroup.removeAllViews();
-        View rootView = LayoutInflater.from(this).inflate(R.layout.activity_drawerlayout, null);
+        View rootView = LayoutInflater.from(this).inflate(R.layout.base_activity_drawerlayout, null);
         viewGroup.addView(rootView);
         mContentView = (ViewGroup) findViewById(R.id.layout_content);
     }

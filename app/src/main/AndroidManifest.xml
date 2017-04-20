@@ -41,8 +41,6 @@
         <activity android:name=".ui.meizi.MeiziActivity" android:launchMode="standard"/>
         <activity android:name=".ui.about.AboutActivity"/>
 
-        <activity android:name=".DebugActivity"/>
-
         <provider
             android:authorities="com.dasu.ganhuo.authority"
             android:name=".mode.database.GanHuoContentProvider"
