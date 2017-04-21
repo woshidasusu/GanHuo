@@ -23,7 +23,7 @@ import java.util.List;
  *
  */
 
-public class HomeRecycleAdapter extends RecyclerView.Adapter<HomeRecycleAdapter.ViewHolder> {
+class HomeRecycleAdapter extends RecyclerView.Adapter<HomeRecycleAdapter.ViewHolder> {
     private static final String TAG = HomeRecycleAdapter.class.getSimpleName();
 
     private List<GanHuoEntity> mDataList;

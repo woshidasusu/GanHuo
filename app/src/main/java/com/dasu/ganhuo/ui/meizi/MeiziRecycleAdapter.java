@@ -21,7 +21,7 @@ import java.util.List;
  * Created by dasu on 2017/4/18.
  */
 
-public class MeiziRecycleAdapter extends RecyclerView.Adapter<MeiziRecycleAdapter.ViewHolder> {
+class MeiziRecycleAdapter extends RecyclerView.Adapter<MeiziRecycleAdapter.ViewHolder> {
 
     private static final String TAG = MeiziRecycleAdapter.class.getSimpleName();
 

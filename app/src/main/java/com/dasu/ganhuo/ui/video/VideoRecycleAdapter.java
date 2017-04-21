@@ -17,10 +17,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by suxq on 2017/4/18.
+ * Created by dasu on 2017/4/18.
  */
 
-public class VideoRecycleAdapter extends RecyclerView.Adapter<VideoRecycleAdapter.ViewHolder> {
+class VideoRecycleAdapter extends RecyclerView.Adapter<VideoRecycleAdapter.ViewHolder> {
 
     private List<GanHuoEntity> mDataList;
     private Context mContext;

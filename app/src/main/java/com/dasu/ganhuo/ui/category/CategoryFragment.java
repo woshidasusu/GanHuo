@@ -10,11 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dasu.ganhuo.R;
+import com.dasu.ganhuo.mode.logic.category.CategoryFController;
 import com.dasu.ganhuo.mode.logic.category.GanHuoEntity;
-import com.dasu.ganhuo.mode.logic.category.ICategoryType;
 import com.dasu.ganhuo.ui.base.BaseFragment;
-import com.dasu.ganhuo.ui.base.OnItemClickListener;
-import com.dasu.ganhuo.utils.LogUtils;
 import com.dasu.ganhuo.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -22,39 +20,43 @@ import java.util.List;
 
 /**
  * Created by dasu on 2017/4/20.
+ *
+ * 各类型干货的数据展示界面，
  */
 
-public class CategoryFragment extends BaseFragment implements ICategoryType{
+public class CategoryFragment extends BaseFragment implements ICategoryController {
     private static final String TAG = CategoryFragment.class.getSimpleName();
 
     @Override
     public String getCategoryType() {
-        return mCategoryType;
+        Bundle bundle = getArguments();
+        return bundle.getString("_type", "");
     }
-
-    private String mCategoryType;
 
     public CategoryFragment() {
     }
 
-    private CategoryActivity mCategoryActivity;
+    //刷新的状态
+    private static final int STATE_REFRESHING = 1;
+    private static final int STATE_REFRESH_FINISH = 2;
+    private int mRefreshState = STATE_REFRESH_FINISH;
+
+    private CategoryFController mCategoryController;
     private Context mContext;
+    private OnSwipeRefreshListener mRefreshListener;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (!(context instanceof CategoryActivity)) {
-            LogUtils.e(TAG, TAG + "绑定错误的Activity");
-            throw new UnsupportedOperationException(TAG + "绑定错误的Activity");
-        }
         mContext = context;
-        mCategoryActivity = (CategoryActivity) context;
+        if (context instanceof OnSwipeRefreshListener) {
+            mRefreshListener = (OnSwipeRefreshListener) context;
+        }
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initVariable();
-        mCategoryActivity.getCategoryController().loadBaseData();
     }
 
     @Nullable
@@ -65,17 +67,10 @@ public class CategoryFragment extends BaseFragment implements ICategoryType{
         return view;
     }
 
-    private List<GanHuoEntity> mGanHuoList;
-
-    private void initVariable() {
-        mGanHuoList = new ArrayList<>();
-        Bundle bundle = getArguments();
-        mCategoryType = bundle.getString("_type", null);
-    }
+    private List<GanHuoEntity> mGanHuoList = new ArrayList<>();
 
     private RecyclerView mCategoryRv;
     private CategoryRecycleAdapter mRecycleAdapter;
-
 
     private void initView(View view) {
         mCategoryRv = (RecyclerView) view.findViewById(R.id.rv_category_content);
@@ -88,12 +83,22 @@ public class CategoryFragment extends BaseFragment implements ICategoryType{
     private OnItemClickListener<GanHuoEntity> onItemClick() {
         return new OnItemClickListener<GanHuoEntity>() {
             @Override
-            public void onItemClick(View view, GanHuoEntity data, int position) {
+            public void onImageClick(List<String> imgUrls) {
+                ToastUtils.show(mContext, imgUrls.get(0));
+            }
+
+            @Override
+            public void onItemClick(GanHuoEntity data) {
                 ToastUtils.show(mContext, data.getDesc());
             }
         };
     }
 
+    private void notifyDataSetChanged() {
+        if (mRecycleAdapter != null) {
+            mRecycleAdapter.notifyDataSetChanged();
+        }
+    }
 
     public CategoryFragment setArguments(String type) {
         Bundle bundle = new Bundle();
@@ -104,14 +109,50 @@ public class CategoryFragment extends BaseFragment implements ICategoryType{
 
     @Override
     public void updateGanHuo(List<GanHuoEntity> data) {
-        if (mRecycleAdapter != null) {
-            mRecycleAdapter.setData(data);
+        mRefreshState = STATE_REFRESH_FINISH;
+        mRefreshListener.onRefreshFinish();
+        if (data == null || data.size() == 0) {
+            return;
+        }
+        if (mGanHuoList == null) {
+            mGanHuoList = new ArrayList<>();
+        }
+        mGanHuoList.clear();
+        mGanHuoList.addAll(data);
+        if (isFragmentVisible()) {
+            notifyDataSetChanged();
         }
     }
 
     @Override
-    protected void onFragmentVisibleChange(boolean isVisible) {
-        LogUtils.d(TAG, "fragment visiable: " + isVisible + "   " + mCategoryType);
+    public void onLoadFailed() {
+        mRefreshState = STATE_REFRESH_FINISH;
+        mRefreshListener.onRefreshFinish();
+        ToastUtils.show(mContext, "数据加载失败，请重试");
     }
 
+    public void retryLoadData() {
+        mRefreshState = STATE_REFRESHING;
+        mCategoryController.loadBaseData();
+    }
+
+    @Override
+    protected void onFragmentVisibleChange(boolean isVisible) {
+        if (isVisible) {
+            notifyDataSetChanged();
+            if (mRefreshState == STATE_REFRESHING) {
+                mRefreshListener.onRefreshing();
+            }
+        } else {
+            mRefreshListener.onRefreshFinish();
+        }
+    }
+
+    @Override
+    protected void onFragmentFirstVisible() {
+        mCategoryController = new CategoryFController(this);
+        mRefreshState = STATE_REFRESHING;
+        mRefreshListener.onRefreshing();
+        mCategoryController.loadBaseData();
+    }
 }

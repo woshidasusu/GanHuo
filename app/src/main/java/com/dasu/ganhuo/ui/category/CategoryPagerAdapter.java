@@ -10,15 +10,17 @@ import java.util.List;
 
 /**
  * Created by dasu on 2017/4/20.
+ * <p>
+ * ViewPager的适配器，用于根据List的tab名来生成对应的Fragment，每个Fragment必须传入其type的参数
  */
 
-public class CategoryPagerAdapter extends FragmentPagerAdapter{
+class CategoryPagerAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> mFragmentList;
     private List<String> mTabNameList;
     private Fragment mCurFragment;
 
-    public CategoryPagerAdapter(FragmentManager fm, List<String> categoryList) {
+    CategoryPagerAdapter(FragmentManager fm, List<String> categoryList) {
         super(fm);
         mFragmentList = new ArrayList<>();
         mTabNameList = categoryList;
@@ -49,7 +51,7 @@ public class CategoryPagerAdapter extends FragmentPagerAdapter{
         mCurFragment = (Fragment) object;
     }
 
-    public Fragment getCurrentFragment() {
+    Fragment getCurrentFragment() {
         return mCurFragment;
     }
 }

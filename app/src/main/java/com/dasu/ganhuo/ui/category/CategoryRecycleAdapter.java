@@ -8,28 +8,29 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dasu.ganhuo.R;
 import com.dasu.ganhuo.mode.logic.category.GanHuoEntity;
-import com.dasu.ganhuo.ui.base.OnItemClickListener;
 import com.dasu.ganhuo.ui.view.ScaleImageView;
 import com.dasu.ganhuo.utils.TimeUtils;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by dasu on 2017/4/20.
+ *
+ * Fragment中的RecyclerView的适配器，用于显示各干货数据
  */
 
-public class CategoryRecycleAdapter extends RecyclerView.Adapter<CategoryRecycleAdapter.ViewHolder> {
+class CategoryRecycleAdapter extends RecyclerView.Adapter<CategoryRecycleAdapter.ViewHolder> {
 
     private List<GanHuoEntity> mDataList;
     private Context mContext;
     private OnItemClickListener<GanHuoEntity> mClickListener;
 
-    public CategoryRecycleAdapter(List<GanHuoEntity> data) {
-        setData(data);
+    CategoryRecycleAdapter(List<GanHuoEntity> data) {
+        mDataList = data;
     }
 
     @Override
@@ -45,39 +46,21 @@ public class CategoryRecycleAdapter extends RecyclerView.Adapter<CategoryRecycle
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         final GanHuoEntity data = mDataList.get(position);
-        final int posi = position;
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mClickListener != null) {
-                    mClickListener.onItemClick(v, data, posi);
-                }
-            }
-        });
+        holder.data = data;
         setDemoImage(holder.mDemoIv, data.getImages());
         holder.mTitleTv.setText(data.getDesc());
-        holder.mAuthorTv.setText(data.getWho());
+        holder.mAuthorTv.setText("© " + data.getWho());
         setDate(data.getPublishedAt(), holder.mDateTv);
     }
 
     private void setDemoImage(final ScaleImageView imageView, List<String> images) {
-//        Glide.with(mContext)
-//                .load(images != null ? images.get(0) : "http://www.baidu.com.jpg")
-//                .asBitmap()
-//                .placeholder(R.drawable.bg_placeholder_blank)
-//                .error(R.drawable.bg_placeholder_blank)
-//                .into(new SimpleTarget<Bitmap>() {
-//                    @Override
-//                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-//                        imageView.setOriginSize(resource.getWidth(), resource.getHeight());
-//                        imageView.setImageBitmap(resource);
-//                    }
-//                });
+        //todo images 和 占位符需要修改
         Glide.with(mContext)
                 .load(images != null ? images.get(0) : "http://www.baidu.com.jpg")
                 .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.bg_placeholder_blank)
                 .error(R.drawable.bg_placeholder_blank)
                 .into(imageView);
@@ -88,35 +71,39 @@ public class CategoryRecycleAdapter extends RecyclerView.Adapter<CategoryRecycle
         tv.setText(time);
     }
 
-    public void setData(List<GanHuoEntity> data) {
-        if (mDataList == null) {
-            mDataList = new ArrayList<>();
-        }
-        if (data == null || data.size() == 0 ) {
-            return;
-        }
-        mDataList = data;
-        notifyDataSetChanged();
-    }
-
-
     public void setOnItemClickListener(OnItemClickListener<GanHuoEntity> listener) {
         mClickListener = listener;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ScaleImageView mDemoIv;
         TextView mTitleTv;
         TextView mAuthorTv;
         TextView mDateTv;
+        ViewGroup mInfoLayout;
+        GanHuoEntity data;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             mDemoIv = (ScaleImageView) itemView.findViewById(R.id.iv_category_demo);
             mTitleTv = (TextView) itemView.findViewById(R.id.tv_category_title);
             mAuthorTv = (TextView) itemView.findViewById(R.id.tv_category_author);
             mDateTv = (TextView) itemView.findViewById(R.id.tv_category_date);
+            mInfoLayout = (ViewGroup) itemView.findViewById(R.id.layout_category_info);
+            mDemoIv.setOnClickListener(this);
+            mInfoLayout.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (mClickListener != null) {
+                if (v == mDemoIv) {
+                    mClickListener.onImageClick(data.getImages());
+                } else {
+                    mClickListener.onItemClick(data);
+                }
+            }
         }
     }
 

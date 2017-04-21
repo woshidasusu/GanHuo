@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
  * Created by dasu on 2017/4/18.
  */
 
-public class HistoryRecycleAdapter extends RecyclerView.Adapter<HistoryRecycleAdapter.ViewHolder> {
+class HistoryRecycleAdapter extends RecyclerView.Adapter<HistoryRecycleAdapter.ViewHolder> {
 
     private Context mContext;
     private List<HtmlDataEntity> mDataList;

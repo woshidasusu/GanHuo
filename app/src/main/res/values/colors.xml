@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/pink</color>
-    <color name="colorPrimaryDark">@color/light_pink</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#FF4500</color>
+    <color name="colorPrimaryDark">#6FFF4500</color>
+    <color name="colorAccent">#FFA500</color>
     
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
@@ -17,5 +17,7 @@
     <color name="brown">#6d4c41</color>
     <color name="light_pink">#f48fb1</color>
     <color name="teal">#00695c</color>
-    <color name="transparent">#7f000000</color>
+    <color name="deep_pink">#4B0082</color>
+    <color name="transparent">#af000000</color>
+
 </resources>

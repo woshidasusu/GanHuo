@@ -30,7 +30,7 @@ public class GankController {
     public static final String TYPE_VIDEO = "休息视频";
     public static final String TYPE_MEIZI = "福利";
     public static final String TYPE_APP = "App";
-    public static final String TYPE_OTHER = "扩展资源";
+    public static final String TYPE_OTHER = "拓展资源";
     //默认每次只加载10个数据
     private static final int DEFAULT_LOAD_COUNTS = 10;
 
