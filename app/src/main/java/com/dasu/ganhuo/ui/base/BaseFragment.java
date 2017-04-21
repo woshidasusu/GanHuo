@@ -14,6 +14,7 @@ import android.view.View;
  * 该抽象类自定义一个新的回调方法，当fragment可见状态改变时会触发的回调方法
  *
  * @see #onFragmentVisibleChange(boolean)
+ * @see #onFragmentFirstVisible()
  */
 public abstract class BaseFragment extends Fragment {
 

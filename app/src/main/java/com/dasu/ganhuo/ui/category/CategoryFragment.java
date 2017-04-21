@@ -152,7 +152,6 @@ public class CategoryFragment extends BaseFragment implements ICategoryControlle
     protected void onFragmentFirstVisible() {
         mCategoryController = new CategoryFController(this);
         mRefreshState = STATE_REFRESHING;
-        mRefreshListener.onRefreshing();
         mCategoryController.loadBaseData();
     }
 }

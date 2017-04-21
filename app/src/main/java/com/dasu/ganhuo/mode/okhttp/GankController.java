@@ -53,12 +53,12 @@ public class GankController {
      * @param callback
      */
     public static void getSpecifyGanHuo(final String type, int page, final RetrofitListener<List<GanHuoEntity>> callback) {
-        LogUtils.d(TAG, "[getSpecifyGanHuo] 正在下载干货，类型： " + type + " ，下载数量： " + DEFAULT_LOAD_COUNTS + " ，下载第 " + page + " 页数据");
+        LogUtils.d(TAG, "正在下载干货，类型： " + type + " ，下载数量： " + DEFAULT_LOAD_COUNTS + " ，下载第 " + page + " 页数据");
         getGankApi().getSpecifyGanHuo(type, DEFAULT_LOAD_COUNTS, page).enqueue(new Callback<GankResEntity>() {
             @Override
             public void onResponse(Call<GankResEntity> call, Response<GankResEntity> response) {
                 if (response.isSuccessful()) {
-                    LogUtils.d(TAG, "[getSpecifyGanHuo]" + type + "干货下载成功： " + response.body().toString());
+                    LogUtils.d(TAG, type + "干货下载成功： " + response.body().toString());
                     Object results = response.body().getResults();
                     Type t = new TypeToken<List<GanHuoEntity>>() {
                     }.getType();
@@ -66,7 +66,7 @@ public class GankController {
                     callback.onSuccess(data);
                 } else {
                     //获取数据失败，可能是 404 之类的原因
-                    LogUtils.e(TAG, "[getSpecifyGanHuo]" + type + "干货下载失败，code： " + response.code());
+                    LogUtils.e(TAG, type + "干货下载失败，code： " + response.code());
                     callback.onError("请求失败，code: " + response.code());
                 }
             }
@@ -74,7 +74,7 @@ public class GankController {
             @Override
             public void onFailure(Call<GankResEntity> call, Throwable t) {
                 //可能是网络问题，请求发送失败
-                LogUtils.e(TAG, "[getSpecifyGanHuo]" + type + "干货下载失败", t);
+                LogUtils.e(TAG,type + "干货下载失败", t);
                 callback.onError(t.getMessage());
             }
         });
@@ -123,14 +123,14 @@ public class GankController {
         LogUtils.d(TAG, "[getSomedayGanHuo] 请求" + someday + " 的数据...");
         final String[] date = someday.split("-");
         if (date.length != 3) {
-            LogUtils.e(TAG, "[getSomedayGanHuo] 参数 " + someday + " 格式错误，请修正，格式如：2017-05-01");
+            LogUtils.e(TAG, "参数 " + someday + " 格式错误，请修正，格式如：2017-05-01");
             return;
         }
         getGankApi().getSomedayGanHuo(date[0], date[1], date[2]).enqueue(new Callback<GankResEntity>() {
             @Override
             public void onResponse(Call<GankResEntity> call, Response<GankResEntity> response) {
                 if (response.isSuccessful()) {
-                    LogUtils.d(TAG, "[getSomedayGanHuo] " + someday + " 的数据： " + response.body().toString());
+                    LogUtils.d(TAG, someday + " 的数据： " + response.body().toString());
 
                     Object results = response.body().getResults();
                     Type t = new TypeToken<SomedayGanHuoEntity.Results>() {
