@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.dasu.ganhuo.R;
 import com.dasu.ganhuo.ui.base.SubpageWithToolbarActivity;
+import com.dasu.ganhuo.ui.view.GlideCircleTransform;
 
 /**
  * Created by dasu on 2017/4/17.

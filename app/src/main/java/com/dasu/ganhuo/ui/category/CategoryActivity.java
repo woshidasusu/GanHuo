@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.dasu.ganhuo.R;
 import com.dasu.ganhuo.mode.logic.category.CategoryAController;
 import com.dasu.ganhuo.ui.base.BaseActivity;
+import com.dasu.ganhuo.ui.base.OnSwipeRefreshListener;
 
 /**
  * Created by dasu on 2017/4/14.

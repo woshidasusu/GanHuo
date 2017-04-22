@@ -1,4 +1,4 @@
-package com.dasu.ganhuo.ui.category;
+package com.dasu.ganhuo.ui.base;
 
 /**
  * Created by dasu on 2017/4/21.
@@ -6,7 +6,7 @@ package com.dasu.ganhuo.ui.category;
  * activity 和 fragment通信接口，即fragment通过该接口通知activity干活
  */
 
-interface OnSwipeRefreshListener {
+public interface OnSwipeRefreshListener {
 
     void onRefreshing();
 

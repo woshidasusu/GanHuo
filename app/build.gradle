@@ -18,6 +18,7 @@ android {
 
         buildConfigField "String", "GAND_SERVICE", '"http://gank.io/api/"'
         buildConfigField "String", "GITHUB_SERVICE", '"https://api.github.com/"'
+        buildConfigField "String", "READING_SERVICE", '"http://gank.io/xiandu/"'
         //使用 fir.im 做版本管理服务器
         buildConfigField "String", "VMS", '"http://api.fir.im/"'
         buildConfigField 'String', 'APPID', /"${properties.getProperty('APPID', '')}"/
@@ -77,10 +78,14 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
+    //网络访问
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile 'com.android.support:design:26.0.0-alpha1'
+    //图片加载
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    //Html解析
+    compile 'org.jsoup:jsoup:1.10.2'
 }

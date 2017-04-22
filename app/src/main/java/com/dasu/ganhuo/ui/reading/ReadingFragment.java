@@ -1,4 +1,4 @@
-package com.dasu.ganhuo.ui.category;
+package com.dasu.ganhuo.ui.reading;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,9 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dasu.ganhuo.R;
-import com.dasu.ganhuo.mode.logic.category.CategoryFController;
-import com.dasu.ganhuo.mode.logic.category.GanHuoEntity;
+import com.dasu.ganhuo.mode.logic.reading.BlogEntity;
+import com.dasu.ganhuo.mode.logic.reading.ReadingFController;
 import com.dasu.ganhuo.ui.base.BaseFragment;
+import com.dasu.ganhuo.ui.base.OnItemClickListener;
 import com.dasu.ganhuo.ui.base.OnSwipeRefreshListener;
 import com.dasu.ganhuo.utils.ToastUtils;
 
@@ -20,21 +21,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by dasu on 2017/4/20.
- *
- * 各类型干货的数据展示界面，
+ * Created by dasu on 2017/4/22.
  */
 
-public class CategoryFragment extends BaseFragment implements ICategoryController {
-    private static final String TAG = CategoryFragment.class.getSimpleName();
+public class ReadingFragment extends BaseFragment implements IReadingController{
+
+    private static final String TAG = ReadingFragment.class.getSimpleName();
 
     @Override
-    public String getCategoryType() {
+    public String getReadingType() {
         Bundle bundle = getArguments();
         return bundle.getString("_type", "");
     }
 
-    public CategoryFragment() {
+    public ReadingFragment() {
     }
 
     //刷新的状态
@@ -42,7 +42,7 @@ public class CategoryFragment extends BaseFragment implements ICategoryControlle
     private static final int STATE_REFRESH_FINISH = 2;
     private int mRefreshState = STATE_REFRESH_FINISH;
 
-    private CategoryFController mCategoryController;
+    private ReadingFController mReadingController;
     private Context mContext;
     private OnSwipeRefreshListener mRefreshListener;
 
@@ -63,36 +63,31 @@ public class CategoryFragment extends BaseFragment implements ICategoryControlle
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_category, container, false);
+        View view = inflater.inflate(R.layout.fragment_reading, container, false);
         initView(view);
         return view;
     }
 
-    private List<GanHuoEntity> mGanHuoList = new ArrayList<>();
+    private List<BlogEntity> mBlogList = new ArrayList<>();
 
-    private RecyclerView mCategoryRv;
-    private CategoryRecycleAdapter mRecycleAdapter;
+    private RecyclerView mReadingRv;
+    private ReadingRecycleAdapter mRecycleAdapter;
 
     private void initView(View view) {
-        mCategoryRv = (RecyclerView) view.findViewById(R.id.rv_category_content);
-        mCategoryRv.setLayoutManager(new LinearLayoutManager(mContext));
-        mRecycleAdapter = new CategoryRecycleAdapter(mGanHuoList);
+        mReadingRv = (RecyclerView) view.findViewById(R.id.rv_reading_content);
+        mReadingRv.setLayoutManager(new LinearLayoutManager(mContext));
+        mRecycleAdapter = new ReadingRecycleAdapter(mBlogList);
         mRecycleAdapter.setOnItemClickListener(onItemClick());
-        mCategoryRv.setAdapter(mRecycleAdapter);
+        mReadingRv.setAdapter(mRecycleAdapter);
     }
 
-    private OnItemClickListener<GanHuoEntity> onItemClick() {
-        return new OnItemClickListener<GanHuoEntity>() {
-            @Override
-            public void onImageClick(List<String> imgUrls) {
-                ToastUtils.show(mContext, imgUrls.get(0));
-            }
-
-            @Override
-            public void onItemClick(GanHuoEntity data) {
-                ToastUtils.show(mContext, data.getDesc());
-            }
-        };
+    private OnItemClickListener<BlogEntity> onItemClick() {
+       return new OnItemClickListener<BlogEntity>() {
+           @Override
+           public void onItemClick(View view, BlogEntity data, int position) {
+                ToastUtils.show(mContext, data.getTitle());
+           }
+       };
     }
 
     private void notifyDataSetChanged() {
@@ -101,7 +96,7 @@ public class CategoryFragment extends BaseFragment implements ICategoryControlle
         }
     }
 
-    public CategoryFragment setArguments(String type) {
+    public ReadingFragment setArguments(String type) {
         Bundle bundle = new Bundle();
         bundle.putString("_type", type);
         setArguments(bundle);
@@ -109,17 +104,17 @@ public class CategoryFragment extends BaseFragment implements ICategoryControlle
     }
 
     @Override
-    public void updateGanHuo(List<GanHuoEntity> data) {
+    public void updateBlogs(List<BlogEntity> data) {
         mRefreshState = STATE_REFRESH_FINISH;
         mRefreshListener.onRefreshFinish();
         if (data == null || data.size() == 0) {
             return;
         }
-        if (mGanHuoList == null) {
-            mGanHuoList = new ArrayList<>();
+        if (mBlogList == null) {
+            mBlogList = new ArrayList<>();
         }
-        mGanHuoList.clear();
-        mGanHuoList.addAll(data);
+        mBlogList.clear();
+        mBlogList.addAll(data);
         if (isFragmentVisible()) {
             notifyDataSetChanged();
         }
@@ -134,7 +129,7 @@ public class CategoryFragment extends BaseFragment implements ICategoryControlle
 
     public void retryLoadData() {
         mRefreshState = STATE_REFRESHING;
-        mCategoryController.loadBaseData();
+        mReadingController.loadBaseData();
     }
 
     @Override
@@ -151,8 +146,9 @@ public class CategoryFragment extends BaseFragment implements ICategoryControlle
 
     @Override
     protected void onFragmentFirstVisible() {
-        mCategoryController = new CategoryFController(this);
+        mReadingController = new ReadingFController(this);
         mRefreshState = STATE_REFRESHING;
-        mCategoryController.loadBaseData();
+        mReadingController.loadBaseData();
     }
+
 }

@@ -1,4 +1,4 @@
-package com.dasu.ganhuo.ui.about;
+package com.dasu.ganhuo.ui.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
