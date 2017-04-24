@@ -1,5 +1,6 @@
 package com.dasu.ganhuo.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -79,5 +80,6 @@ public class HomeActivity extends DrawerActivity implements OnItemClickListener<
     public void onItemClick(View view, GanHuoEntity data, int position) {
         //todo 列表项点击事件
         ToastUtils.show(mContext, data.getType());
+        startActivity(new Intent(mContext, DebugActivity.class));
     }
 }

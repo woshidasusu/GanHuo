@@ -11,7 +11,6 @@ import com.dasu.ganhuo.mode.logic.category.GanHuoEntity;
 import com.dasu.ganhuo.mode.logic.meizi.MeiziController;
 import com.dasu.ganhuo.ui.base.OnItemClickListener;
 import com.dasu.ganhuo.ui.base.SubpageWithToolbarActivity;
-import com.dasu.ganhuo.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +22,11 @@ import java.util.List;
  */
 
 public class MeiziActivity extends SubpageWithToolbarActivity implements OnItemClickListener<GanHuoEntity> {
+
+    @Override
+    public String getToolbarTitle() {
+        return "妹子";
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,9 +49,6 @@ public class MeiziActivity extends SubpageWithToolbarActivity implements OnItemC
     private MeiziRecycleAdapter mRecycleAdapter;
 
     private void initView() {
-        //添加 toolbar
-        getSupportActionBar().setTitle("妹子");
-
         mMeiziRv = (RecyclerView) findViewById(R.id.rv_meizi_content);
         StaggeredGridLayoutManager layoutManager =
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -68,12 +69,17 @@ public class MeiziActivity extends SubpageWithToolbarActivity implements OnItemC
     }
 
     public void updateMeizi(List<GanHuoEntity> data) {
+        mMeiziList = data;
         mRecycleAdapter.setData(data);
     }
 
 
     @Override
     public void onItemClick(View view, GanHuoEntity data, int position) {
-        ToastUtils.show(mContext, data.getDesc());
+        ArrayList<String> images = new ArrayList<>();
+        for (GanHuoEntity entity : mMeiziList) {
+            images.add(entity.getUrl());
+        }
+        ImageActivity.startActivity(mContext, position, images);
     }
 }

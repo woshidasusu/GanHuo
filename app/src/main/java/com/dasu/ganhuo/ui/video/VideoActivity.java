@@ -26,6 +26,11 @@ import java.util.List;
 public class VideoActivity extends SubpageWithToolbarActivity implements OnItemClickListener<GanHuoEntity> {
 
     @Override
+    public String getToolbarTitle() {
+        return "休闲视频";
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
@@ -51,8 +56,6 @@ public class VideoActivity extends SubpageWithToolbarActivity implements OnItemC
     private VideoRecycleAdapter mRecycleAdapter;
 
     private void initView() {
-        //添加 toolbar
-        getSupportActionBar().setTitle("休闲视频");
         mVideoRv = (RecyclerView) findViewById(R.id.rv_video_content);
         mVideoRv.setLayoutManager(new LinearLayoutManager(this));
         mRecycleAdapter = new VideoRecycleAdapter(mVideoList);

@@ -14,6 +14,7 @@ import com.dasu.ganhuo.mode.logic.category.CategoryFController;
 import com.dasu.ganhuo.mode.logic.category.GanHuoEntity;
 import com.dasu.ganhuo.ui.base.BaseFragment;
 import com.dasu.ganhuo.ui.base.OnSwipeRefreshListener;
+import com.dasu.ganhuo.ui.meizi.ImageActivity;
 import com.dasu.ganhuo.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -85,7 +86,7 @@ public class CategoryFragment extends BaseFragment implements ICategoryControlle
         return new OnItemClickListener<GanHuoEntity>() {
             @Override
             public void onImageClick(List<String> imgUrls) {
-                ToastUtils.show(mContext, imgUrls.get(0));
+                ImageActivity.startActivity(mContext, 0, (ArrayList<String>) imgUrls);
             }
 
             @Override

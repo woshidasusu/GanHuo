@@ -20,6 +20,8 @@ public abstract class SubpageWithToolbarActivity extends BaseActivity{
 
     private ViewGroup mContentView;
 
+    public abstract String getToolbarTitle();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +30,7 @@ public abstract class SubpageWithToolbarActivity extends BaseActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        getSupportActionBar().setTitle(getToolbarTitle());
     }
 
     private void initContentView() {

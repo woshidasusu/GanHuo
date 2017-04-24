@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--父容器在base_activity_drawerlayout.xml中-->
+<!--父容器在base_activity_subpage.xml中-->
 <!--父容器属性
     <LinearLayout
         android:id="@+id/layout_content"

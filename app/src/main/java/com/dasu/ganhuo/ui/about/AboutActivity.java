@@ -20,6 +20,11 @@ public class AboutActivity extends SubpageWithToolbarActivity {
     private static final String JIANSHU = "http://www.jianshu.com/u/bb52a2918096";
 
     @Override
+    public String getToolbarTitle() {
+        return "关于";
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
@@ -32,8 +37,6 @@ public class AboutActivity extends SubpageWithToolbarActivity {
     private TextView mThanksTv;
 
     private void initView() {
-        //init toolbar
-        getSupportActionBar().setTitle("关于");
         //init imageview me
         mMeIv = (ImageView) findViewById(R.id.iv_about_me);
         Glide.with(this).load(R.drawable.img_me)
@@ -52,6 +55,7 @@ public class AboutActivity extends SubpageWithToolbarActivity {
                     "第三方库: " + "\r\n" + "" +
                     "         okhttp + retrofit （网络访问）" + "\r\n" +
                     "         gson （json数据解析）" + "\r\n" +
+                    "         jsoup （Html解析）" + "\r\n" +
                     "         glide （图片加载）" + "\r\n\r\n" +
                     "说明: " + "\r\n" +
                     "         该项目旨在增加自己的编程实践，因此第三方库的使用只选择最基本的功能，比如网络访问，图片加载这些" +

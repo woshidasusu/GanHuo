@@ -25,6 +25,11 @@ import java.util.List;
 public class HistoryActivity extends SubpageWithToolbarActivity implements OnItemClickListener<HtmlDataEntity> {
 
     @Override
+    public String getToolbarTitle() {
+        return "往期推荐";
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
@@ -50,8 +55,6 @@ public class HistoryActivity extends SubpageWithToolbarActivity implements OnIte
     private HistoryRecycleAdapter mRecycleAdapter;
 
     private void initView() {
-        //添加 toolbar
-        getSupportActionBar().setTitle("往期推荐");
         mHistoryRv = (RecyclerView) findViewById(R.id.rv_history_content);
         mHistoryRv.setLayoutManager(new LinearLayoutManager(mContext));
         mRecycleAdapter = new HistoryRecycleAdapter(mHistoryList);

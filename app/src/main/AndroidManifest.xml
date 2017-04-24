@@ -40,6 +40,7 @@
         <activity android:name=".ui.video.VideoActivity" android:launchMode="standard"/>
         <activity android:name=".ui.meizi.MeiziActivity" android:launchMode="standard"/>
         <activity android:name=".ui.about.AboutActivity"/>
+        <activity android:name=".ui.meizi.ImageActivity"/>
 
         <provider
             android:authorities="com.dasu.ganhuo.authority"
