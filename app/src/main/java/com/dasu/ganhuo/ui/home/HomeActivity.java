@@ -1,6 +1,5 @@
 package com.dasu.ganhuo.ui.home;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +12,6 @@ import com.dasu.ganhuo.mode.logic.home.HomeController;
 import com.dasu.ganhuo.mode.logic.home.SomedayGanHuoEntity;
 import com.dasu.ganhuo.ui.base.DrawerActivity;
 import com.dasu.ganhuo.ui.base.OnItemClickListener;
-import com.dasu.ganhuo.utils.ToastUtils;
 
 /**
  * 今日推荐页面，只负责界面数据的展示，业务逻辑交由{@link HomeController} 负责
@@ -78,8 +76,6 @@ public class HomeActivity extends DrawerActivity implements OnItemClickListener<
 
     @Override
     public void onItemClick(View view, GanHuoEntity data, int position) {
-        //todo 列表项点击事件
-        ToastUtils.show(mContext, data.getType());
-        startActivity(new Intent(mContext, DebugActivity.class));
+        WebViewActivity.startActivity(mContext, data.getUrl(), data.getDesc());
     }
 }

@@ -41,6 +41,7 @@
         <activity android:name=".ui.meizi.MeiziActivity" android:launchMode="standard"/>
         <activity android:name=".ui.about.AboutActivity"/>
         <activity android:name=".ui.meizi.ImageActivity"/>
+        <activity android:name=".ui.home.WebViewActivity"/>
 
         <provider
             android:authorities="com.dasu.ganhuo.authority"
