@@ -14,6 +14,7 @@ import com.dasu.ganhuo.mode.logic.category.CategoryFController;
 import com.dasu.ganhuo.mode.logic.category.GanHuoEntity;
 import com.dasu.ganhuo.ui.base.BaseFragment;
 import com.dasu.ganhuo.ui.base.OnSwipeRefreshListener;
+import com.dasu.ganhuo.ui.home.WebViewActivity;
 import com.dasu.ganhuo.ui.meizi.ImageActivity;
 import com.dasu.ganhuo.utils.ToastUtils;
 
@@ -91,7 +92,7 @@ public class CategoryFragment extends BaseFragment implements ICategoryControlle
 
             @Override
             public void onItemClick(GanHuoEntity data) {
-                ToastUtils.show(mContext, data.getDesc());
+                WebViewActivity.startActivity(mContext, data.getUrl(), data.getDesc());
             }
         };
     }

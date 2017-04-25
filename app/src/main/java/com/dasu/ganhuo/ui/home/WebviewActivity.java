@@ -2,20 +2,24 @@ package com.dasu.ganhuo.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import com.dasu.ganhuo.R;
 import com.dasu.ganhuo.ui.base.ActivityStack;
 import com.dasu.ganhuo.ui.base.BaseActivity;
+import com.dasu.ganhuo.utils.LogUtils;
 
 import java.io.File;
 
@@ -26,8 +30,9 @@ import java.io.File;
  */
 
 public class WebViewActivity extends BaseActivity{
-
+    private static final String TAG = WebViewActivity.class.getSimpleName();
     private WebView mWebView;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,10 +69,12 @@ public class WebViewActivity extends BaseActivity{
 
     private String mGanHuoUrl;
     private String mGanHuoTitle;
+    private boolean isOnLoading;
 
     private void initVariable() {
         mGanHuoUrl = getIntent().getStringExtra("_url");
         mGanHuoTitle = getIntent().getStringExtra("_title");
+        isOnLoading = false;
     }
 
     private void initView() {
@@ -76,6 +83,8 @@ public class WebViewActivity extends BaseActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("网页");
         mWebView = (WebView) findViewById(R.id.wv_webview_content);
+        mProgressBar = (ProgressBar) findViewById(R.id.pb_webview_load_progress);
+        mProgressBar.setProgress(0);
         initWebView();
     }
 
@@ -89,6 +98,7 @@ public class WebViewActivity extends BaseActivity{
         mWebView.getSettings().setAppCacheEnabled(true);
         mWebView.getSettings().setGeolocationEnabled(true);
         mWebView.getSettings().setAllowFileAccess(true);
+        //支持js
         mWebView.getSettings().setJavaScriptEnabled(true);
         //设置自适应屏幕，两者合用
         mWebView.getSettings().setUseWideViewPort(true);  //将图片调整到适合webview的大小
@@ -114,8 +124,16 @@ public class WebViewActivity extends BaseActivity{
                 mWebView.getContext().startActivity(intent);
             }
         });
+        //辅助webView处理各种通知、请求事件
         mWebView.setWebViewClient(new MyWebViewClient());
+        //辅助WebView处理js的弹窗响应等
         mWebView.setWebChromeClient(new MyWebChromeClient());
+    }
+
+    private void showProgressBar() {
+        if (mProgressBar != null && mProgressBar.getVisibility() == View.GONE) {
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
     }
 
     public static void startActivity(Context context, String url, String title) {
@@ -135,17 +153,43 @@ public class WebViewActivity extends BaseActivity{
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mWebView != null && mWebView.canGoBack()) {
+            mWebView.goBack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     //WebViewClient就是帮助WebView处理各种通知、请求事件的。
-    class MyWebViewClient extends WebViewClient {
+    private class MyWebViewClient extends WebViewClient {
+
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            LogUtils.d(TAG, "url: " + url);
+            isOnLoading = false;
+            showProgressBar();
             view.loadUrl(url);
             return true;
         }
 
         @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            LogUtils.d(TAG, "page Start");
+            isOnLoading = true;
+            showProgressBar();
+
+        }
+
+        @Override
         public void onPageFinished(WebView view, String url) {
-            super.onPageFinished(view, url);
+            LogUtils.d(TAG, "page finish");
+            if (isOnLoading) {
+                mProgressBar.setProgress(0);
+                mProgressBar.setVisibility(View.GONE);
+                isOnLoading = false;
+            }
         }
 
         //        shouldOverrideUrlLoading(WebView view, String url)  最常用的，比如上面的。
@@ -187,17 +231,19 @@ public class WebViewActivity extends BaseActivity{
     }
 
     //WebChromeClient是辅助WebView处理Javascript的对话框，网站图标，网站title，加载进度等
-    class MyWebChromeClient extends WebChromeClient {
+    private class MyWebChromeClient extends WebChromeClient {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
-
+            LogUtils.d(TAG, "progress: " + newProgress);
+            if (mProgressBar != null && mProgressBar.getVisibility() == View.VISIBLE) {
+                mProgressBar.setProgress(newProgress);
+            }
         }
 //        //获取Web页中的title用来设置自己界面中的title
 //        //当加载出错的时候，比如无网络，这时onReceiveTitle中获取的标题为 找不到该网页,
 //        //因此建议当触发onReceiveError时，不要使用获取到的title
 //        @Override
 //        public void onReceivedTitle(WebView view, String title) {
-//            MainActivity.this.setTitle(title);
 //        }
 //
 //        @Override

@@ -11,7 +11,7 @@ import com.dasu.ganhuo.mode.logic.category.GanHuoEntity;
 import com.dasu.ganhuo.mode.logic.video.VideoController;
 import com.dasu.ganhuo.ui.base.OnItemClickListener;
 import com.dasu.ganhuo.ui.base.SubpageWithToolbarActivity;
-import com.dasu.ganhuo.utils.ToastUtils;
+import com.dasu.ganhuo.ui.home.WebViewActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +78,6 @@ public class VideoActivity extends SubpageWithToolbarActivity implements OnItemC
 
     @Override
     public void onItemClick(View view, GanHuoEntity data, int position) {
-        ToastUtils.show(mContext, data.getUrl());
+        WebViewActivity.startActivity(mContext, data.getUrl(), data.getDesc());
     }
 }

@@ -15,6 +15,7 @@ import com.dasu.ganhuo.mode.logic.reading.ReadingFController;
 import com.dasu.ganhuo.ui.base.BaseFragment;
 import com.dasu.ganhuo.ui.base.OnItemClickListener;
 import com.dasu.ganhuo.ui.base.OnSwipeRefreshListener;
+import com.dasu.ganhuo.ui.home.WebViewActivity;
 import com.dasu.ganhuo.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -85,7 +86,7 @@ public class ReadingFragment extends BaseFragment implements IReadingController{
        return new OnItemClickListener<BlogEntity>() {
            @Override
            public void onItemClick(View view, BlogEntity data, int position) {
-                ToastUtils.show(mContext, data.getTitle());
+               WebViewActivity.startActivity(mContext, data.getBlogUrl(), data.getTitle());
            }
        };
     }
