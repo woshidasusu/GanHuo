@@ -45,9 +45,6 @@ public class SomedayGanHuoEntity implements Serializable{
             if (video != null && video.size() > 0) {
                 allList.add(video);
             }
-            if (meizi != null && meizi.size() > 0) {
-                allList.add(meizi);
-            }
             if (app != null && app.size() > 0) {
                 allList.add(app);
             }
