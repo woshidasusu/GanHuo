@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,8 @@ import com.dasu.ganhuo.ui.base.BaseFragment;
 import com.dasu.ganhuo.ui.base.OnSwipeRefreshListener;
 import com.dasu.ganhuo.ui.home.WebViewActivity;
 import com.dasu.ganhuo.ui.meizi.ImageActivity;
+import com.dasu.ganhuo.ui.view.recyclerview.LoadMoreRecyclerView;
+import com.dasu.ganhuo.ui.view.recyclerview.OnPullUpRefreshListener;
 import com.dasu.ganhuo.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -72,15 +73,25 @@ public class CategoryFragment extends BaseFragment implements ICategoryControlle
 
     private List<GanHuoEntity> mGanHuoList = new ArrayList<>();
 
-    private RecyclerView mCategoryRv;
+    private LoadMoreRecyclerView mCategoryRv;
     private CategoryRecycleAdapter mRecycleAdapter;
 
     private void initView(View view) {
-        mCategoryRv = (RecyclerView) view.findViewById(R.id.rv_category_content);
+        mCategoryRv = (LoadMoreRecyclerView) view.findViewById(R.id.rv_category_content);
         mCategoryRv.setLayoutManager(new LinearLayoutManager(mContext));
         mRecycleAdapter = new CategoryRecycleAdapter(mGanHuoList);
         mRecycleAdapter.setOnItemClickListener(onItemClick());
         mCategoryRv.setAdapter(mRecycleAdapter);
+        mCategoryRv.setOnPullUpRefreshListener(onPullUpRefresh());
+    }
+
+    private OnPullUpRefreshListener onPullUpRefresh() {
+        return new OnPullUpRefreshListener() {
+            @Override
+            public void onPullUpRefresh() {
+                ToastUtils.show(mContext, "上啦刷新");
+            }
+        };
     }
 
     private OnItemClickListener<GanHuoEntity> onItemClick() {

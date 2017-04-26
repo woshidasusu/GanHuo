@@ -11,7 +11,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dasu.ganhuo.R;
 import com.dasu.ganhuo.mode.logic.category.GanHuoEntity;
+import com.dasu.ganhuo.mode.logic.category.GanHuoHelper;
 import com.dasu.ganhuo.ui.view.ScaleImageView;
+import com.dasu.ganhuo.ui.view.recyclerview.LoadMoreRecycleAdapter;
 import com.dasu.ganhuo.utils.TimeUtils;
 
 import java.util.Date;
@@ -23,7 +25,7 @@ import java.util.List;
  * Fragment中的RecyclerView的适配器，用于显示各干货数据
  */
 
-class CategoryRecycleAdapter extends RecyclerView.Adapter<CategoryRecycleAdapter.ViewHolder> {
+class CategoryRecycleAdapter extends LoadMoreRecycleAdapter<CategoryRecycleAdapter.ViewHolder> {
 
     private List<GanHuoEntity> mDataList;
     private Context mContext;
@@ -34,23 +36,25 @@ class CategoryRecycleAdapter extends RecyclerView.Adapter<CategoryRecycleAdapter
     }
 
     @Override
-    public int getItemCount() {
+    public int getDataSize() {
         return mDataList != null ? mDataList.size() : 0;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent) {
         mContext = parent.getContext();
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_category, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindView(ViewHolder holder, int position) {
         final GanHuoEntity data = mDataList.get(position);
         holder.data = data;
         setDemoImage(holder.mDemoIv, data.getImages());
         holder.mTitleTv.setText(data.getDesc());
+        String source = GanHuoHelper.getUrlSource(data.getUrl());
+        holder.mSourceTv.setText((source.equals("其它来源") ? "个人博客" : source));
         holder.mAuthorTv.setText("© " + data.getWho());
         setDate(data.getPublishedAt(), holder.mDateTv);
     }
@@ -80,6 +84,7 @@ class CategoryRecycleAdapter extends RecyclerView.Adapter<CategoryRecycleAdapter
         ScaleImageView mDemoIv;
         TextView mTitleTv;
         TextView mAuthorTv;
+        TextView mSourceTv;
         TextView mDateTv;
         ViewGroup mInfoLayout;
         GanHuoEntity data;
@@ -88,6 +93,7 @@ class CategoryRecycleAdapter extends RecyclerView.Adapter<CategoryRecycleAdapter
             super(itemView);
             mDemoIv = (ScaleImageView) itemView.findViewById(R.id.iv_category_demo);
             mTitleTv = (TextView) itemView.findViewById(R.id.tv_category_title);
+            mSourceTv = (TextView) itemView.findViewById(R.id.tv_category_source);
             mAuthorTv = (TextView) itemView.findViewById(R.id.tv_category_author);
             mDateTv = (TextView) itemView.findViewById(R.id.tv_category_date);
             mInfoLayout = (ViewGroup) itemView.findViewById(R.id.layout_category_info);
