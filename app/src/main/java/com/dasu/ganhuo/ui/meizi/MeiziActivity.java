@@ -2,7 +2,6 @@ package com.dasu.ganhuo.ui.meizi;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
@@ -11,6 +10,9 @@ import com.dasu.ganhuo.mode.logic.category.GanHuoEntity;
 import com.dasu.ganhuo.mode.logic.meizi.MeiziController;
 import com.dasu.ganhuo.ui.base.OnItemClickListener;
 import com.dasu.ganhuo.ui.base.SubpageWithToolbarActivity;
+import com.dasu.ganhuo.ui.view.recyclerview.LoadMoreRecyclerView;
+import com.dasu.ganhuo.ui.view.recyclerview.OnPullUpRefreshListener;
+import com.dasu.ganhuo.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,25 +47,25 @@ public class MeiziActivity extends SubpageWithToolbarActivity implements OnItemC
         mMeiziController = new MeiziController(this);
     }
 
-    private RecyclerView mMeiziRv;
+    private LoadMoreRecyclerView mMeiziRv;
     private MeiziRecycleAdapter mRecycleAdapter;
 
     private void initView() {
-        mMeiziRv = (RecyclerView) findViewById(R.id.rv_meizi_content);
+        mMeiziRv = (LoadMoreRecyclerView) findViewById(R.id.rv_meizi_content);
         StaggeredGridLayoutManager layoutManager =
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mMeiziRv.setLayoutManager(layoutManager);
         mRecycleAdapter = new MeiziRecycleAdapter(mMeiziList);
         mRecycleAdapter.setOnItemClickListener(this);
         mMeiziRv.setAdapter(mRecycleAdapter);
-        mMeiziRv.addOnScrollListener(addOnScrollListener());
+        mMeiziRv.setOnPullUpRefreshListener(onPullUpRefresh());
     }
 
-    private RecyclerView.OnScrollListener addOnScrollListener() {
-        return new RecyclerView.OnScrollListener() {
+    private OnPullUpRefreshListener onPullUpRefresh() {
+        return new OnPullUpRefreshListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
+            public void onPullUpRefresh() {
+                ToastUtils.show(mContext, "上拉刷新");
             }
         };
     }

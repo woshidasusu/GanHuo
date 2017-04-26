@@ -20,7 +20,6 @@ import java.util.List;
 
 /**
  * Created by dasu on 2017/4/17.
- *
  */
 
 class HomeRecycleAdapter extends RecyclerView.Adapter<HomeRecycleAdapter.ViewHolder> {

@@ -11,6 +11,7 @@ import com.dasu.ganhuo.R;
 import com.dasu.ganhuo.mode.logic.category.GanHuoHelper;
 import com.dasu.ganhuo.mode.logic.home.HtmlDataEntity;
 import com.dasu.ganhuo.ui.base.OnItemClickListener;
+import com.dasu.ganhuo.ui.view.recyclerview.LoadMoreRecycleAdapter;
 import com.dasu.ganhuo.utils.TimeUtils;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import java.util.regex.Pattern;
  * Created by dasu on 2017/4/18.
  */
 
-class HistoryRecycleAdapter extends RecyclerView.Adapter<HistoryRecycleAdapter.ViewHolder> {
+class HistoryRecycleAdapter extends LoadMoreRecycleAdapter<HistoryRecycleAdapter.ViewHolder> {
 
     private Context mContext;
     private List<HtmlDataEntity> mDataList;
@@ -33,19 +34,19 @@ class HistoryRecycleAdapter extends RecyclerView.Adapter<HistoryRecycleAdapter.V
     }
 
     @Override
-    public int getItemCount() {
+    public int getDataSize() {
         return mDataList != null ? mDataList.size() : 0;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent) {
         mContext = parent.getContext();
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_history, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindView(ViewHolder holder, int position) {
         final HtmlDataEntity data = mDataList.get(position);
         final int posi = position;
         holder.itemView.setOnClickListener(new View.OnClickListener() {

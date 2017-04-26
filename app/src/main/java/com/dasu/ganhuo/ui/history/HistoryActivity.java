@@ -3,7 +3,6 @@ package com.dasu.ganhuo.ui.history;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.dasu.ganhuo.R;
@@ -11,6 +10,8 @@ import com.dasu.ganhuo.mode.logic.history.HistoryController;
 import com.dasu.ganhuo.mode.logic.home.HtmlDataEntity;
 import com.dasu.ganhuo.ui.base.OnItemClickListener;
 import com.dasu.ganhuo.ui.base.SubpageWithToolbarActivity;
+import com.dasu.ganhuo.ui.view.recyclerview.LoadMoreRecyclerView;
+import com.dasu.ganhuo.ui.view.recyclerview.OnPullUpRefreshListener;
 import com.dasu.ganhuo.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -51,15 +52,25 @@ public class HistoryActivity extends SubpageWithToolbarActivity implements OnIte
         mHistoryController = new HistoryController(this);
     }
 
-    private RecyclerView mHistoryRv;
+    private LoadMoreRecyclerView mHistoryRv;
     private HistoryRecycleAdapter mRecycleAdapter;
 
     private void initView() {
-        mHistoryRv = (RecyclerView) findViewById(R.id.rv_history_content);
+        mHistoryRv = (LoadMoreRecyclerView) findViewById(R.id.rv_history_content);
         mHistoryRv.setLayoutManager(new LinearLayoutManager(mContext));
         mRecycleAdapter = new HistoryRecycleAdapter(mHistoryList);
         mRecycleAdapter.setOnItemClickListener(this);
         mHistoryRv.setAdapter(mRecycleAdapter);
+        mHistoryRv.setOnPullUpRefreshListener(onPullUpRefresh());
+    }
+
+    private OnPullUpRefreshListener onPullUpRefresh() {
+        return new OnPullUpRefreshListener() {
+            @Override
+            public void onPullUpRefresh() {
+                ToastUtils.show(mContext, "上拉刷新");
+            }
+        };
     }
 
     public void updateHistory(List<HtmlDataEntity> data) {

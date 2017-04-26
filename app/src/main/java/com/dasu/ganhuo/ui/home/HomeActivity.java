@@ -2,7 +2,6 @@ package com.dasu.ganhuo.ui.home;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -12,6 +11,7 @@ import com.dasu.ganhuo.mode.logic.home.HomeController;
 import com.dasu.ganhuo.mode.logic.home.SomedayGanHuoEntity;
 import com.dasu.ganhuo.ui.base.DrawerActivity;
 import com.dasu.ganhuo.ui.base.OnItemClickListener;
+import com.dasu.ganhuo.ui.view.recyclerview.BaseRecyclerView;
 
 /**
  * 今日推荐页面，只负责界面数据的展示，业务逻辑交由{@link HomeController} 负责
@@ -49,7 +49,7 @@ public class HomeActivity extends DrawerActivity implements OnItemClickListener<
         mHomeController = new HomeController(this);
     }
 
-    private RecyclerView mGanhuoRv;
+    private BaseRecyclerView mGanhuoRv;
     private HomeRecycleAdapter mRecycleAdapter;
 
     private void initView() {
@@ -57,7 +57,7 @@ public class HomeActivity extends DrawerActivity implements OnItemClickListener<
         addToolbar((Toolbar)findViewById(R.id.toolbar));
         getSupportActionBar().setTitle("今日推荐");
         //init view
-        mGanhuoRv = (RecyclerView) findViewById(R.id.rv_home_content);
+        mGanhuoRv = (BaseRecyclerView) findViewById(R.id.rv_home_content);
         mGanhuoRv.setLayoutManager(new LinearLayoutManager(mContext));
         mRecycleAdapter = new HomeRecycleAdapter(mSomedayGanHuo);
         mGanhuoRv.setAdapter(mRecycleAdapter);

@@ -8,7 +8,7 @@
         android:orientation="vertical"/>-->
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.v7.widget.RecyclerView
+    <com.dasu.ganhuo.ui.view.recyclerview.LoadMoreRecyclerView
         android:id="@+id/rv_meizi_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
