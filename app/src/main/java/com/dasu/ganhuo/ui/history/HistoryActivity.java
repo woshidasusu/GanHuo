@@ -5,11 +5,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.dasu.ganhuo.BuildConfig;
 import com.dasu.ganhuo.R;
+import com.dasu.ganhuo.mode.logic.base.GankSp;
 import com.dasu.ganhuo.mode.logic.history.HistoryController;
 import com.dasu.ganhuo.mode.logic.home.HtmlDataEntity;
 import com.dasu.ganhuo.ui.base.OnItemClickListener;
 import com.dasu.ganhuo.ui.base.SubpageWithToolbarActivity;
+import com.dasu.ganhuo.ui.home.WebViewActivity;
 import com.dasu.ganhuo.ui.view.recyclerview.LoadMoreRecyclerView;
 import com.dasu.ganhuo.ui.view.recyclerview.OnPullUpRefreshListener;
 import com.dasu.ganhuo.utils.TimeUtils;
@@ -69,17 +72,40 @@ public class HistoryActivity extends SubpageWithToolbarActivity implements OnIte
         return new OnPullUpRefreshListener() {
             @Override
             public void onPullUpRefresh() {
-                ToastUtils.show(mContext, "上拉刷新");
+                int counts = GankSp.getGankDateCounts(mContext);
+                if (mHistoryList.size() >= counts) {
+                    ToastUtils.show(mContext, "干货到底啦！");
+                    mHistoryRv.nothingToRefresh();
+                } else {
+                    mHistoryController.startPullUpRefresh();
+                }
             }
         };
     }
 
     public void updateHistory(List<HtmlDataEntity> data) {
-        mRecycleAdapter.setData(data);
+        if (mHistoryList == null) {
+            mHistoryList = new ArrayList<>();
+        }
+        mHistoryList.clear();
+        mHistoryList.addAll(data);
+        mRecycleAdapter.notifyDataSetChanged();
+    }
+
+    public void refreshHistory(List<HtmlDataEntity> data) {
+        if (mHistoryList == null) {
+            mHistoryList = new ArrayList<>();
+        }
+        int oldSize = mHistoryList.size();
+        mHistoryList.addAll(data);
+        mRecycleAdapter.notifyItemRangeInserted(oldSize, data.size());
+        ToastUtils.show(mContext, "加载成功，新增" + data.size() + "项干货哦！");
     }
 
     @Override
     public void onItemClick(View view, HtmlDataEntity data, int position) {
-        String someDay = TimeUtils.milliseconds2String(TimeUtils.adjustDate(data.getPublishedAt()), TimeUtils.YMD_SDF);
+        String[] someDay = TimeUtils.milliseconds2String(TimeUtils.adjustDate(data.getPublishedAt()), TimeUtils.YMD_SDF).split("-");
+        String url = BuildConfig.HTTP_GANK + someDay[0] + "/" + someDay[1] + "/" + someDay[2];
+        WebViewActivity.startActivity(mContext, url, "ddd");
     }
 }

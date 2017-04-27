@@ -94,7 +94,7 @@ public class MeiziActivity extends SubpageWithToolbarActivity implements OnItemC
         }
         int oldSize = mMeiziList.size();
         mMeiziList.addAll(data);
-        mRecycleAdapter.notifyItemRangeChanged(oldSize, data.size());
+        mRecycleAdapter.notifyItemRangeInserted(oldSize, data.size());
         ToastUtils.show(mContext, "加载成功，新增" + data.size() + "张妹子拉");
     }
 

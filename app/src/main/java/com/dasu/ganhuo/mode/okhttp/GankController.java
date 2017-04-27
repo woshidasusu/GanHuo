@@ -173,7 +173,7 @@ public class GankController {
             @Override
             public void onResponse(Call<GankResEntity> call, Response<GankResEntity> response) {
                 if (response.isSuccessful()) {
-                    LogUtils.d(TAG, someday + " 的网站数据： " + response.body().toString());
+                    LogUtils.d(TAG, someday + " 的网站数据请求成功 ");
 
                     Object results = response.body().getResults();
                     Type t = new TypeToken<List<HtmlDataEntity>>() {
@@ -209,7 +209,7 @@ public class GankController {
             @Override
             public void onResponse(Call<GankResEntity> call, Response<GankResEntity> response) {
                 if (response.isSuccessful()) {
-                    LogUtils.d(TAG, " 请求成功，历史的网页数据： " + response.body().toString());
+                    LogUtils.d(TAG, " 历史的网页数据请求成功");
 
                     Object results = response.body().getResults();
                     Type t = new TypeToken<List<HtmlDataEntity>>() {
@@ -233,7 +233,7 @@ public class GankController {
     }
 
     private static class GankApiSingleton {
-        private static GankApi mInstance = RetrofitHelper.newRetrofit(BuildConfig.GAND_SERVICE).create(GankApi.class);
+        private static GankApi mInstance = RetrofitHelper.newRetrofit(BuildConfig.GANK_SERVICE).create(GankApi.class);
     }
 
 }

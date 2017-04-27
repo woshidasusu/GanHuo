@@ -16,7 +16,8 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        buildConfigField "String", "GAND_SERVICE", '"http://gank.io/api/"'
+        buildConfigField "String", "GANK_SERVICE", '"http://gank.io/api/"'
+        buildConfigField "String", "HTTP_GANK", '"http://gank.io/"'
         buildConfigField "String", "GITHUB_SERVICE", '"https://api.github.com/"'
         buildConfigField "String", "READING_SERVICE", '"http://gank.io/xiandu/"'
         //使用 fir.im 做版本管理服务器

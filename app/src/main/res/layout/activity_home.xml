@@ -45,6 +45,24 @@
                     app:layout_collapseMode="parallax"
                     />
 
+                <TextView
+                    android:id="@+id/tv_home_jump_source"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="20dp"
+                    android:drawableLeft="@drawable/icon_jump_source"
+                    android:drawablePadding="5dp"
+                    android:gravity="center"
+                    android:text="阅读原文"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    app:layout_collapseMode="parallax"
+                    />
+
+
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"

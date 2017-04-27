@@ -11,6 +11,7 @@ import com.dasu.ganhuo.R;
 import com.dasu.ganhuo.mode.logic.category.GanHuoEntity;
 import com.dasu.ganhuo.mode.logic.category.GanHuoHelper;
 import com.dasu.ganhuo.ui.base.OnItemClickListener;
+import com.dasu.ganhuo.ui.view.recyclerview.LoadMoreRecycleAdapter;
 import com.dasu.ganhuo.utils.TimeUtils;
 
 import java.util.Date;
@@ -20,30 +21,30 @@ import java.util.List;
  * Created by dasu on 2017/4/18.
  */
 
-class VideoRecycleAdapter extends RecyclerView.Adapter<VideoRecycleAdapter.ViewHolder> {
+class VideoRecycleAdapter extends LoadMoreRecycleAdapter<VideoRecycleAdapter.ViewHolder> {
 
     private List<GanHuoEntity> mDataList;
     private Context mContext;
     private OnItemClickListener<GanHuoEntity> mClickListener;
 
     public VideoRecycleAdapter(List<GanHuoEntity> data) {
-        setData(data);
+        mDataList = data;
     }
 
     @Override
-    public int getItemCount() {
+    public int getDataSize() {
         return mDataList != null ? mDataList.size() : 0;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent) {
         mContext = parent.getContext();
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindView(ViewHolder holder, int position) {
         final GanHuoEntity data = mDataList.get(position);
         final int posi = position;
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -67,14 +68,6 @@ class VideoRecycleAdapter extends RecyclerView.Adapter<VideoRecycleAdapter.ViewH
     private void setDate(Date date, TextView tv) {
         String time = TimeUtils.howLongAgo(TimeUtils.adjustDate(date));
         tv.setText(time);
-    }
-
-    public void setData(List<GanHuoEntity> data) {
-        if (data == null || data.size() == 0) {
-            return;
-        }
-        mDataList = data;
-        notifyDataSetChanged();
     }
 
     public void setOnItemClickListener(OnItemClickListener<GanHuoEntity> listener) {

@@ -30,7 +30,7 @@ class HistoryRecycleAdapter extends LoadMoreRecycleAdapter<HistoryRecycleAdapter
     private OnItemClickListener<HtmlDataEntity> mClickListener;
 
     public HistoryRecycleAdapter(List<HtmlDataEntity> data) {
-        setData(data);
+        mDataList = data;
     }
 
     @Override
@@ -90,14 +90,6 @@ class HistoryRecycleAdapter extends LoadMoreRecycleAdapter<HistoryRecycleAdapter
             TextView tv = holder.getTextView(i);
             tv.setVisibility(View.GONE);
         }
-    }
-
-    public void setData(List<HtmlDataEntity> data) {
-        if (data == null || data.size() == 0) {
-            return;
-        }
-        mDataList = data;
-        notifyDataSetChanged();
     }
 
     public void setOnItemClickListener(OnItemClickListener<HtmlDataEntity> listener) {

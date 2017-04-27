@@ -89,7 +89,13 @@ public class CategoryFragment extends BaseFragment implements ICategoryControlle
         return new OnPullUpRefreshListener() {
             @Override
             public void onPullUpRefresh() {
-                ToastUtils.show(mContext, "上啦刷新");
+                //正在刷新的话，就不加载下拉刷新了
+                if (mRefreshState == STATE_REFRESHING) {
+                    return;
+                }
+                mRefreshState = STATE_REFRESHING;
+                mRefreshListener.onRefreshing();
+                mCategoryController.startPullUpRefresh();
             }
         };
     }
@@ -138,6 +144,18 @@ public class CategoryFragment extends BaseFragment implements ICategoryControlle
         }
     }
 
+    public void refreshData(List<GanHuoEntity> data) {
+        mRefreshState = STATE_REFRESH_FINISH;
+        mRefreshListener.onRefreshFinish();
+        if (mGanHuoList == null) {
+            mGanHuoList = new ArrayList<>();
+        }
+        int oldSize = mGanHuoList.size();
+        mGanHuoList.addAll(data);
+        mRecycleAdapter.notifyItemRangeInserted(oldSize, data.size());
+        ToastUtils.show(mContext, "加载成功，新增" + data.size() + "项干货哦！");
+    }
+
     @Override
     public void onLoadFailed() {
         mRefreshState = STATE_REFRESH_FINISH;
@@ -145,6 +163,9 @@ public class CategoryFragment extends BaseFragment implements ICategoryControlle
         ToastUtils.show(mContext, "数据加载失败，请重试");
     }
 
+    /**
+     * 重新加载数据
+     */
     public void retryLoadData() {
         mRefreshState = STATE_REFRESHING;
         mCategoryController.loadBaseData();

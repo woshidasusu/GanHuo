@@ -28,6 +28,7 @@ class RetrofitHelper {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         mOkHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
+                .retryOnConnectionFailure(true)
                 .connectTimeout(12, TimeUnit.SECONDS)
                 .build();
     }

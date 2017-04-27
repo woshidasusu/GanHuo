@@ -1,9 +1,11 @@
 package com.dasu.ganhuo.ui.home;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -18,6 +20,7 @@ import com.dasu.ganhuo.ui.view.recyclerview.BaseRecyclerView;
 /**
  * 今日推荐页面，只负责界面数据的展示，业务逻辑交由{@link HomeController} 负责
  * 双方互相持有引用，可直接交互
+ * 建议Activity不主动从Controller拿数据，只能被动获取
  */
 public class HomeActivity extends DrawerActivity implements OnItemClickListener<GanHuoEntity> {
     private static final String TAG = HomeActivity.class.getSimpleName();
@@ -45,6 +48,7 @@ public class HomeActivity extends DrawerActivity implements OnItemClickListener<
     //今日的干货数据
     private SomedayGanHuoEntity mSomedayGanHuo;
     private HomeController mHomeController;
+    private String mSourceUrl;
 
     private void initVariable() {
         mSomedayGanHuo = new SomedayGanHuoEntity();
@@ -55,6 +59,7 @@ public class HomeActivity extends DrawerActivity implements OnItemClickListener<
     private HomeRecycleAdapter mRecycleAdapter;
     private TextView mSubTitleTv;
     private AppBarLayout mAppBarLayout;
+    private TextView mJumpSourceTv;
 
     private void initView() {
         //添加 toolbar
@@ -62,11 +67,24 @@ public class HomeActivity extends DrawerActivity implements OnItemClickListener<
         //init view
         mAppBarLayout = (AppBarLayout) findViewById(R.id.layout_appbar);
         mSubTitleTv = (TextView) findViewById(R.id.tv_home_subtitle);
+        mJumpSourceTv = (TextView) findViewById(R.id.tv_home_jump_source);
         mGanhuoRv = (BaseRecyclerView) findViewById(R.id.rv_home_content);
         mGanhuoRv.setLayoutManager(new LinearLayoutManager(mContext));
         mRecycleAdapter = new HomeRecycleAdapter(mSomedayGanHuo);
         mGanhuoRv.setAdapter(mRecycleAdapter);
         mRecycleAdapter.setOnItemClickListener(this);
+        mJumpSourceTv.setOnClickListener(onJumpSourceClick());
+    }
+
+    private View.OnClickListener onJumpSourceClick() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(mSourceUrl)) {
+                    WebViewActivity.startActivity(mContext, mSourceUrl, "Gank.io");
+                }
+            }
+        };
     }
 
     /**
@@ -84,6 +102,16 @@ public class HomeActivity extends DrawerActivity implements OnItemClickListener<
             mAppBarLayout.setExpanded(true, true);
             mSubTitleTv.setText(subTitle);
         }
+    }
+
+    public void updateSourceUrl(String sourceUrl) {
+        if (mJumpSourceTv != null) {
+            mJumpSourceTv.setVisibility(View.VISIBLE);
+            //设置下划线
+            mJumpSourceTv.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+            mJumpSourceTv.getPaint().setAntiAlias(true);
+        }
+        mSourceUrl = sourceUrl;
     }
 
     @Override

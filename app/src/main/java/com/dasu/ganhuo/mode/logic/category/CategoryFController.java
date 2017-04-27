@@ -40,6 +40,7 @@ public class CategoryFController {
     }
 
     public void loadBaseData() {
+        mCategoryPage = 1;
         GankController.getSpecifyGanHuo(mCategoryType, 1, new RetrofitListener<List<GanHuoEntity>>() {
             @Override
             public void onSuccess(List<GanHuoEntity> data) {
@@ -48,6 +49,36 @@ public class CategoryFController {
 
             @Override
             public void onError(String description) {
+                mCategoryFragment.onLoadFailed();
+            }
+        });
+    }
+
+    private static final int STATE_REFRESH_END = 1;
+    private static final int STATE_REFRESHING = 2;
+
+    private int mRefreshState = STATE_REFRESH_END;
+    private int mCategoryPage = 1;
+
+    public void startPullUpRefresh() {
+        if (mRefreshState == STATE_REFRESHING) {
+            return;
+        }
+        mRefreshState = STATE_REFRESHING;
+        GankController.getSpecifyGanHuo(mCategoryType, ++mCategoryPage, new RetrofitListener<List<GanHuoEntity>>() {
+            @Override
+            public void onSuccess(List<GanHuoEntity> data) {
+                mRefreshState = STATE_REFRESH_END;
+                if (data != null && data.size() > 0) {
+                    mCategoryFragment.refreshData(data);
+                } else {
+                    mCategoryFragment.onLoadFailed();
+                }
+            }
+
+            @Override
+            public void onError(String description) {
+                mRefreshState = STATE_REFRESH_END;
                 mCategoryFragment.onLoadFailed();
             }
         });

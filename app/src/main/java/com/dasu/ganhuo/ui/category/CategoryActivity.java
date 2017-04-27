@@ -58,10 +58,10 @@ public class CategoryActivity extends BaseActivity implements OnSwipeRefreshList
         mRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.red),
                 getResources().getColor(R.color.orange),
                 getResources().getColor(R.color.pink));
-        mRefreshLayout.setOnRefreshListener(onRefresh());
+        mRefreshLayout.setOnRefreshListener(onPullDownRefresh());
     }
 
-    private SwipeRefreshLayout.OnRefreshListener onRefresh() {
+    private SwipeRefreshLayout.OnRefreshListener onPullDownRefresh() {
         return new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

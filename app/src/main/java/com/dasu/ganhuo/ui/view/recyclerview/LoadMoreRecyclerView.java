@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.dasu.ganhuo.R;
+import com.dasu.ganhuo.utils.LogUtils;
 
 /**
  * Created by dasu on 2017/4/26.
@@ -71,6 +72,7 @@ public class LoadMoreRecyclerView extends BaseRecyclerView implements OnPullUpRe
             mLoadMoreAdapter.setFootIcon(R.drawable.icon_pull_up);
             mLoadMoreAdapter.setFootTip("继续上拉或点击此处加载更多");
             mRefreshState = STATE_REFRESH_END;
+            LogUtils.d(TAG, "上拉加载完成");
         }
     }
 
@@ -107,6 +109,8 @@ public class LoadMoreRecyclerView extends BaseRecyclerView implements OnPullUpRe
     public void onScrollStateChanged(int state) {
         super.onScrollStateChanged(state);
         if (isAtBottom && state == SCROLL_STATE_IDLE) {
+            LogUtils.d(TAG, "开始上拉加载");
+            isAtBottom = false;
             if (mRefreshState == STATE_REFRESH_END) {
                 mLoadMoreAdapter.setFootIcon(R.drawable.rotate_loading);
                 mLoadMoreAdapter.setFootTip("正在加载中...");
@@ -120,6 +124,14 @@ public class LoadMoreRecyclerView extends BaseRecyclerView implements OnPullUpRe
     public void onPullUpRefresh() {
         if (mUpRefreshListener != null) {
             mUpRefreshListener.onPullUpRefresh();
+        }
+    }
+
+    public void nothingToRefresh() {
+        mRefreshState = STATE_REFRESH_END;
+        if (mLoadMoreAdapter != null) {
+            mLoadMoreAdapter.setFootIcon(R.drawable.icon_pull_up);
+            mLoadMoreAdapter.setFootTip("到底啦！");
         }
     }
 

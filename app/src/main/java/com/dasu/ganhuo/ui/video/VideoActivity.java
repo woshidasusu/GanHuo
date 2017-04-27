@@ -3,15 +3,18 @@ package com.dasu.ganhuo.ui.video;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.dasu.ganhuo.R;
+import com.dasu.ganhuo.mode.logic.base.GankSp;
 import com.dasu.ganhuo.mode.logic.category.GanHuoEntity;
 import com.dasu.ganhuo.mode.logic.video.VideoController;
 import com.dasu.ganhuo.ui.base.OnItemClickListener;
 import com.dasu.ganhuo.ui.base.SubpageWithToolbarActivity;
 import com.dasu.ganhuo.ui.home.WebViewActivity;
+import com.dasu.ganhuo.ui.view.recyclerview.LoadMoreRecyclerView;
+import com.dasu.ganhuo.ui.view.recyclerview.OnPullUpRefreshListener;
+import com.dasu.ganhuo.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,15 +55,31 @@ public class VideoActivity extends SubpageWithToolbarActivity implements OnItemC
         mVideoController = new VideoController(this);
     }
 
-    private RecyclerView mVideoRv;
+    private LoadMoreRecyclerView mVideoRv;
     private VideoRecycleAdapter mRecycleAdapter;
 
     private void initView() {
-        mVideoRv = (RecyclerView) findViewById(R.id.rv_video_content);
+        mVideoRv = (LoadMoreRecyclerView) findViewById(R.id.rv_video_content);
         mVideoRv.setLayoutManager(new LinearLayoutManager(this));
         mRecycleAdapter = new VideoRecycleAdapter(mVideoList);
         mRecycleAdapter.setOnItemClickListener(this);
         mVideoRv.setAdapter(mRecycleAdapter);
+        mVideoRv.setOnPullUpRefreshListener(onPullUpRefresh());
+    }
+
+    private OnPullUpRefreshListener onPullUpRefresh() {
+        return new OnPullUpRefreshListener() {
+            @Override
+            public void onPullUpRefresh() {
+                int counts = GankSp.getGankDateCounts(mContext);
+                if (mVideoList.size() >= counts) {
+                    ToastUtils.show(mContext, "到底啦！没有视频了");
+                    mVideoRv.nothingToRefresh();
+                } else {
+                    mVideoController.startPullUpRefresh();
+                }
+            }
+        };
     }
 
     /**
@@ -69,11 +88,22 @@ public class VideoActivity extends SubpageWithToolbarActivity implements OnItemC
      * @param data
      */
     public void updateVideo(List<GanHuoEntity> data) {
-        if (data != null && data.size() > 0) {
-            mRecycleAdapter.setData(data);
-        } else {
-            //todo 展示无数据界面
+        if (mVideoList == null) {
+            mVideoList = new ArrayList<>();
         }
+        mVideoList.clear();
+        mVideoList.addAll(data);
+        mRecycleAdapter.notifyDataSetChanged();
+    }
+
+    public void refreshVideo(List<GanHuoEntity> data) {
+        if (mVideoList == null) {
+            mVideoList = new ArrayList<>();
+        }
+        int oldSize = mVideoList.size();
+        mVideoList.addAll(data);
+        mRecycleAdapter.notifyItemRangeInserted(oldSize, data.size());
+        ToastUtils.show(mContext, "加载成功，新增" + data.size() + "条视频");
     }
 
     @Override

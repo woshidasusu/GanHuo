@@ -2,6 +2,7 @@ package com.dasu.ganhuo.mode.logic.home;
 
 import android.content.Context;
 
+import com.dasu.ganhuo.BuildConfig;
 import com.dasu.ganhuo.mode.logic.update.UpdateController;
 import com.dasu.ganhuo.mode.okhttp.GankController;
 import com.dasu.ganhuo.mode.okhttp.RetrofitListener;
@@ -35,6 +36,9 @@ public class HomeController {
         //发起版本更新检查
         UpdateController.checkUpdate(mContext, new UpdateDialog(mContext));
         String today = TimeUtils.getCurTimeString(TimeUtils.YMD_SDF);
+        //拼接原文的地址
+        String sourceUrl = BuildConfig.HTTP_GANK + today.split("-")[0] + "/" + today.split("-")[1] + "/" + today.split("-")[2];
+        mHomeActivity.updateSourceUrl(sourceUrl);
         //获取当天的干货数据
         GankController.getSomedayGanHuo(today, new RetrofitListener<SomedayGanHuoEntity>() {
             @Override
@@ -66,6 +70,5 @@ public class HomeController {
                 LogUtils.e(TAG, description);
             }
         });
-
     }
 }
