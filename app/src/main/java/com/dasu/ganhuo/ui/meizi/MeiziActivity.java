@@ -6,6 +6,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 import com.dasu.ganhuo.R;
+import com.dasu.ganhuo.mode.logic.base.GankSp;
 import com.dasu.ganhuo.mode.logic.category.GanHuoEntity;
 import com.dasu.ganhuo.mode.logic.meizi.MeiziController;
 import com.dasu.ganhuo.ui.base.OnItemClickListener;
@@ -39,6 +40,8 @@ public class MeiziActivity extends SubpageWithToolbarActivity implements OnItemC
         mMeiziController.loadBaseData();
     }
 
+    //所有涉及到recycleview的适配器数据源的，统一将数据源设置在activity里
+    //adapter里只是持有activity数据源的引用，以确保数据源发生变化时adapter可以监听到
     private List<GanHuoEntity> mMeiziList;
     private MeiziController mMeiziController;
 
@@ -65,14 +68,34 @@ public class MeiziActivity extends SubpageWithToolbarActivity implements OnItemC
         return new OnPullUpRefreshListener() {
             @Override
             public void onPullUpRefresh() {
-                ToastUtils.show(mContext, "上拉刷新");
+                int counts = GankSp.getGankDateCounts(mContext);
+                if (mMeiziList.size() >= counts) {
+                    ToastUtils.show(mContext, "到底啦！没有妹子了...");
+                } else {
+                    mMeiziController.startPullUpRefresh();
+                }
             }
         };
     }
 
     public void updateMeizi(List<GanHuoEntity> data) {
-        mMeiziList = data;
-        mRecycleAdapter.setData(data);
+        if (mMeiziList == null) {
+            mMeiziList = new ArrayList<>();
+        }
+        mMeiziList.clear();
+        mMeiziList.addAll(data);
+        mRecycleAdapter.notifyDataSetChanged();
+        ToastUtils.show(mContext, "加载成功，新增" + data.size() + "张妹子啦");
+    }
+
+    public void refreshMeizi(List<GanHuoEntity> data) {
+        if (mMeiziList == null) {
+            mMeiziList = new ArrayList<>();
+        }
+        int oldSize = mMeiziList.size();
+        mMeiziList.addAll(data);
+        mRecycleAdapter.notifyItemRangeChanged(oldSize, data.size());
+        ToastUtils.show(mContext, "加载成功，新增" + data.size() + "张妹子拉");
     }
 
 

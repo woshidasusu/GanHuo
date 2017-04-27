@@ -31,7 +31,7 @@ class MeiziRecycleAdapter extends LoadMoreRecycleAdapter<MeiziRecycleAdapter.Vie
     private OnItemClickListener<GanHuoEntity> mClickListener;
 
     public MeiziRecycleAdapter(List<GanHuoEntity> data) {
-        setData(data);
+        mDataList = data;
     }
 
     @Override
@@ -71,15 +71,6 @@ class MeiziRecycleAdapter extends LoadMoreRecycleAdapter<MeiziRecycleAdapter.Vie
                         holder.mMeiziIv.setImageBitmap(resource);
                     }
                 });
-    }
-
-    //todo 这样可能会出问题，数据源不是同一个对象，可能无法触发notifyDataSetChanged()
-    public void setData(List<GanHuoEntity> data) {
-        if (data == null || data.size() == 0) {
-            return;
-        }
-        mDataList = data;
-        notifyDataSetChanged();
     }
 
     public void setOnItemClickListener(OnItemClickListener<GanHuoEntity> listener) {

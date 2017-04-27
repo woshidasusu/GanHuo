@@ -179,7 +179,7 @@ public class GankController {
                     Type t = new TypeToken<List<HtmlDataEntity>>() {
                     }.getType();
                     List<HtmlDataEntity> data = sGson.fromJson(sGson.toJson(results), t);
-                    callback.onSuccess(data != null ? data.get(0) : null);
+                    callback.onSuccess(data != null && data.size() > 0 ? data.get(0) : null);
                 } else {
                     //返回404之类的错误
                     LogUtils.e(TAG, "请求失败，code: " + response.code());

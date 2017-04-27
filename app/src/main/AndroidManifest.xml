@@ -26,14 +26,7 @@
         android:supportsRtl="true"
         android:name=".GanhuoApplication"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.home.HomeActivity"
-            android:launchMode="standard">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+        <activity android:name=".ui.home.HomeActivity" android:launchMode="standard"/>
         <activity android:name=".ui.history.HistoryActivity" android:launchMode="standard"/>
         <activity android:name=".ui.category.CategoryActivity" android:launchMode="standard"/>
         <activity android:name=".ui.reading.ReadingActivity" android:launchMode="standard"/>
@@ -42,6 +35,13 @@
         <activity android:name=".ui.about.AboutActivity"/>
         <activity android:name=".ui.meizi.ImageActivity"/>
         <activity android:name=".ui.home.WebViewActivity"/>
+        <activity android:name=".ui.load.LoadActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
 
         <provider
             android:authorities="com.dasu.ganhuo.authority"

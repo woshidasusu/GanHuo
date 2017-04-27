@@ -12,6 +12,7 @@ import com.dasu.ganhuo.ui.base.OnItemClickListener;
 import com.dasu.ganhuo.ui.base.SubpageWithToolbarActivity;
 import com.dasu.ganhuo.ui.view.recyclerview.LoadMoreRecyclerView;
 import com.dasu.ganhuo.ui.view.recyclerview.OnPullUpRefreshListener;
+import com.dasu.ganhuo.utils.TimeUtils;
 import com.dasu.ganhuo.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.List;
 
 /**
  * Created by dasu on 2017/4/18.
- *
+ * <p>
  * 往期推荐界面，二级界面
  */
 
@@ -79,6 +80,6 @@ public class HistoryActivity extends SubpageWithToolbarActivity implements OnIte
 
     @Override
     public void onItemClick(View view, HtmlDataEntity data, int position) {
-        ToastUtils.show(mContext, data.getTitle());
+        String someDay = TimeUtils.milliseconds2String(TimeUtils.adjustDate(data.getPublishedAt()), TimeUtils.YMD_SDF);
     }
 }

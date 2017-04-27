@@ -1,10 +1,13 @@
 package com.dasu.ganhuo.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dasu.ganhuo.R;
@@ -12,6 +15,7 @@ import com.dasu.ganhuo.mode.logic.category.GanHuoEntity;
 import com.dasu.ganhuo.mode.logic.category.GanHuoHelper;
 import com.dasu.ganhuo.mode.logic.home.SomedayGanHuoEntity;
 import com.dasu.ganhuo.ui.base.OnItemClickListener;
+import com.dasu.ganhuo.ui.history.HistoryActivity;
 import com.dasu.ganhuo.utils.TimeUtils;
 
 import java.util.ArrayList;
@@ -22,13 +26,14 @@ import java.util.List;
  * Created by dasu on 2017/4/17.
  */
 
-class HomeRecycleAdapter extends RecyclerView.Adapter<HomeRecycleAdapter.ViewHolder> {
+class HomeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = HomeRecycleAdapter.class.getSimpleName();
+    private static final int TYPE_DATA_VIEW = 1;
+    private static final int TYPE_FOOT_VIEW = 2;
 
     private List<GanHuoEntity> mDataList;
     private OnItemClickListener<GanHuoEntity> mClickListener;
     private Context mContext;
-
 
     public HomeRecycleAdapter(SomedayGanHuoEntity data) {
         setData(data);
@@ -36,33 +41,48 @@ class HomeRecycleAdapter extends RecyclerView.Adapter<HomeRecycleAdapter.ViewHol
 
     @Override
     public int getItemCount() {
-        return mDataList != null ? mDataList.size() : 0;
+        return mDataList != null && mDataList.size() > 0 ? mDataList.size() + 1 : 0;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public int getItemViewType(int position) {
+        if (position > 0 && position == mDataList.size()) {
+            return TYPE_FOOT_VIEW;
+        }
+        return TYPE_DATA_VIEW;
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mContext = parent.getContext();
+        if (viewType == TYPE_FOOT_VIEW) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_footview, parent, false);
+            return new FootViewHolder(view);
+        }
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        final GanHuoEntity data = mDataList.get(position);
-        final int posi = position;
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mClickListener != null) {
-                    mClickListener.onItemClick(v, data, posi);
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof ViewHolder) {
+            ViewHolder vHolder = (ViewHolder) holder;
+            final GanHuoEntity data = mDataList.get(position);
+            final int posi = position;
+            vHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mClickListener != null) {
+                        mClickListener.onItemClick(v, data, posi);
+                    }
                 }
-            }
-        });
-        holder.mTitleTv.setText(data.getDesc());
-        holder.mAuthorTv.setText(data.getWho());
-        setSource(data.getUrl(), holder.mSourceTv);
-        setType(data.getType(), holder.mTypeTv);
-        setDate(data.getPublishedAt(), holder.mDateTv);
+            });
+            vHolder.mTitleTv.setText(data.getDesc());
+            vHolder.mAuthorTv.setText(data.getWho());
+            setSource(data.getUrl(), vHolder.mSourceTv);
+            setType(data.getType(), vHolder.mTypeTv);
+            setDate(data.getPublishedAt(), vHolder.mDateTv);
+        }
     }
 
     private void setType(String type, TextView tv) {
@@ -115,6 +135,25 @@ class HomeRecycleAdapter extends RecyclerView.Adapter<HomeRecycleAdapter.ViewHol
             mAuthorTv = (TextView) itemView.findViewById(R.id.tv_home_item_author);
             mDateTv = (TextView) itemView.findViewById(R.id.tv_home_item_date);
             mSourceTv = (TextView) itemView.findViewById(R.id.tv_home_item_source);
+        }
+    }
+
+    class FootViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView mFootIv;
+        TextView mFootTipTv;
+
+        FootViewHolder(View itemView) {
+            super(itemView);
+            mFootIv = (ImageView) itemView.findViewById(R.id.iv_home_fv_icon);
+            mFootTipTv = (TextView) itemView.findViewById(R.id.tv_home_fv_tip);
+            mFootTipTv.setText(Html.fromHtml("<u>点击跳往历史推荐查看更多干货</u>"));
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mContext.startActivity(new Intent(mContext, HistoryActivity.class));
+                }
+            });
         }
     }
 }

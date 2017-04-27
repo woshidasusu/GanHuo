@@ -149,7 +149,7 @@ public abstract class DrawerActivity extends BaseActivity implements NavigationV
             if (!closeDrawer()) {
                 long curClickTime = System.currentTimeMillis();
                 if ((curClickTime - mFirstClickTime) < 1000) {
-                    super.onBackPressed();
+                    ActivityStack.getInstance().clearActivitys();
                 } else {
                     ToastUtils.show(this, "再点击一次将退出应用");
                     mFirstClickTime = curClickTime;

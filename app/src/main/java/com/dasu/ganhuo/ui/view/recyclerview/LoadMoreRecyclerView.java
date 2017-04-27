@@ -5,6 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
+import android.view.View;
+
+import com.dasu.ganhuo.R;
 
 /**
  * Created by dasu on 2017/4/26.
@@ -29,9 +32,13 @@ public class LoadMoreRecyclerView extends BaseRecyclerView implements OnPullUpRe
         init();
     }
 
+    private static final int STATE_REFRESHING = 2;
+    private static final int STATE_REFRESH_END = 3;
+
     private LoadMoreRecycleAdapter mLoadMoreAdapter;
     private boolean isAtBottom;
     private OnPullUpRefreshListener mUpRefreshListener;
+    private int mRefreshState = STATE_REFRESH_END;
 
     private void init() {
         isAtBottom = false;
@@ -55,6 +62,16 @@ public class LoadMoreRecyclerView extends BaseRecyclerView implements OnPullUpRe
             mLoadMoreAdapter.setFootViewVisibility(GONE);
         }
         isAtBottom = false;
+    }
+
+    @Override
+    public void onChildDetachedFromWindow(View child) {
+        super.onChildDetachedFromWindow(child);
+        if (mLoadMoreAdapter != null && mLoadMoreAdapter.getFootView() == child) {
+            mLoadMoreAdapter.setFootIcon(R.drawable.icon_pull_up);
+            mLoadMoreAdapter.setFootTip("继续上拉或点击此处加载更多");
+            mRefreshState = STATE_REFRESH_END;
+        }
     }
 
     @Override
@@ -90,6 +107,11 @@ public class LoadMoreRecyclerView extends BaseRecyclerView implements OnPullUpRe
     public void onScrollStateChanged(int state) {
         super.onScrollStateChanged(state);
         if (isAtBottom && state == SCROLL_STATE_IDLE) {
+            if (mRefreshState == STATE_REFRESH_END) {
+                mLoadMoreAdapter.setFootIcon(R.drawable.rotate_loading);
+                mLoadMoreAdapter.setFootTip("正在加载中...");
+            }
+            mRefreshState = STATE_REFRESHING;
             onPullUpRefresh();
         }
     }

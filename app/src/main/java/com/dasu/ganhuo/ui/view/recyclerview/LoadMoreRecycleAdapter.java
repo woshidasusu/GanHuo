@@ -72,6 +72,25 @@ public abstract class LoadMoreRecycleAdapter<VH extends RecyclerView.ViewHolder>
         }
     }
 
+    public void setFootIcon(int resId) {
+        if (mFootViewHolder != null) {
+            mFootViewHolder.mLoadImg.setImageResource(resId);
+        }
+    }
+
+    public void setFootTip(String text) {
+        if (mFootViewHolder != null) {
+            mFootViewHolder.mLoadTipTv.setText(text);
+        }
+    }
+
+    public View getFootView() {
+        if (mFootViewHolder != null) {
+            return mFootViewHolder.itemView;
+        }
+        return null;
+    }
+
     class FootViewHolder extends RecyclerView.ViewHolder {
 
         ImageView mLoadImg;
