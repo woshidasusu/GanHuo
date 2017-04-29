@@ -35,16 +35,21 @@ public class HomeController {
     public void loadBaseData() {
         //发起版本更新检查
         UpdateController.checkUpdate(mContext, new UpdateDialog(mContext));
-        String today = TimeUtils.getCurTimeString(TimeUtils.YMD_SDF);
-        //拼接原文的地址
-        String sourceUrl = BuildConfig.HTTP_GANK + today.split("-")[0] + "/" + today.split("-")[1] + "/" + today.split("-")[2];
-        mHomeActivity.updateSourceUrl(sourceUrl);
+        final String today = TimeUtils.getCurTimeString(TimeUtils.YMD_SDF);
         //获取当天的干货数据
         GankController.getSomedayGanHuo(today, new RetrofitListener<SomedayGanHuoEntity>() {
             @Override
             public void onSuccess(SomedayGanHuoEntity data) {
-                mHomeActivity.updateGanhuoRv(data);
                 LogUtils.d(TAG, data.toString());
+                if (data.getCategory().size() > 0) {
+                    mHomeActivity.updateGanhuoRv(data);
+                    //拼接原文的地址
+                    String sourceUrl = BuildConfig.HTTP_GANK + today.split("-")[0] + "/" + today.split("-")[1] + "/" + today.split("-")[2];
+                    mHomeActivity.updateSourceUrl(sourceUrl);
+                } else {
+                    //今天的干货暂时还没有
+
+                }
             }
 
             @Override

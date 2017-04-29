@@ -15,6 +15,7 @@ import com.dasu.ganhuo.ui.view.recyclerview.LoadMoreRecycleAdapter;
 import com.dasu.ganhuo.utils.TimeUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,7 +30,7 @@ class HistoryRecycleAdapter extends LoadMoreRecycleAdapter<HistoryRecycleAdapter
     private List<HtmlDataEntity> mDataList;
     private OnItemClickListener<HtmlDataEntity> mClickListener;
 
-    public HistoryRecycleAdapter(List<HtmlDataEntity> data) {
+    HistoryRecycleAdapter(List<HtmlDataEntity> data) {
         mDataList = data;
     }
 
@@ -63,7 +64,7 @@ class HistoryRecycleAdapter extends LoadMoreRecycleAdapter<HistoryRecycleAdapter
 
     private void setTitle(TextView titleTv, HtmlDataEntity data) {
         String str = data.getTitle();
-        String date = TimeUtils.formatDate(data.getPublishedAt());
+        String date = TimeUtils.formatDate(new Date(TimeUtils.adjustDate(data.getPublishedAt())));
         String title;
         if (str.contains("今日力推")) {
             title = str.replace("今日", date);

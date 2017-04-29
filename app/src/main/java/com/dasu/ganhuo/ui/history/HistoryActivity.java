@@ -5,14 +5,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import com.dasu.ganhuo.BuildConfig;
 import com.dasu.ganhuo.R;
 import com.dasu.ganhuo.mode.logic.base.GankSp;
 import com.dasu.ganhuo.mode.logic.history.HistoryController;
 import com.dasu.ganhuo.mode.logic.home.HtmlDataEntity;
 import com.dasu.ganhuo.ui.base.OnItemClickListener;
 import com.dasu.ganhuo.ui.base.SubpageWithToolbarActivity;
-import com.dasu.ganhuo.ui.home.WebViewActivity;
 import com.dasu.ganhuo.ui.view.recyclerview.LoadMoreRecyclerView;
 import com.dasu.ganhuo.ui.view.recyclerview.OnPullUpRefreshListener;
 import com.dasu.ganhuo.utils.TimeUtils;
@@ -104,8 +102,6 @@ public class HistoryActivity extends SubpageWithToolbarActivity implements OnIte
 
     @Override
     public void onItemClick(View view, HtmlDataEntity data, int position) {
-        String[] someDay = TimeUtils.milliseconds2String(TimeUtils.adjustDate(data.getPublishedAt()), TimeUtils.YMD_SDF).split("-");
-        String url = BuildConfig.HTTP_GANK + someDay[0] + "/" + someDay[1] + "/" + someDay[2];
-        WebViewActivity.startActivity(mContext, url, "ddd");
+        SomedayActivity.startActivity(mContext, data.getTitle(), data.getContent(), TimeUtils.adjustDate(data.getPublishedAt()));
     }
 }
