@@ -41,7 +41,7 @@
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:textColor="@color/white"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     app:layout_collapseMode="parallax"
                     />
 

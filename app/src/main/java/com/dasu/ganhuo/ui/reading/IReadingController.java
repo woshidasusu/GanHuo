@@ -16,4 +16,8 @@ interface IReadingController {
 
     void onLoadFailed();
 
+    void updatePages(List<String> pages);
+
+    void updateCurPage(String page);
+
 }

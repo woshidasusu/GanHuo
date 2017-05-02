@@ -16,6 +16,7 @@ import com.dasu.ganhuo.ui.base.BaseFragment;
 import com.dasu.ganhuo.ui.base.OnItemClickListener;
 import com.dasu.ganhuo.ui.base.OnSwipeRefreshListener;
 import com.dasu.ganhuo.ui.home.WebViewActivity;
+import com.dasu.ganhuo.ui.view.MorePageView;
 import com.dasu.ganhuo.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class ReadingFragment extends BaseFragment implements IReadingController{
     }
 
     private List<BlogEntity> mBlogList = new ArrayList<>();
-
+    private String mCurPage = "1";
     private RecyclerView mReadingRv;
     private ReadingRecycleAdapter mRecycleAdapter;
 
@@ -80,6 +81,44 @@ public class ReadingFragment extends BaseFragment implements IReadingController{
         mRecycleAdapter = new ReadingRecycleAdapter(mBlogList);
         mRecycleAdapter.setOnItemClickListener(onItemClick());
         mReadingRv.setAdapter(mRecycleAdapter);
+        mRecycleAdapter.setOnPageClickListener(onPageClick());
+    }
+
+    private MorePageView.OnPageClickListener onPageClick() {
+        return new MorePageView.OnPageClickListener() {
+            @Override
+            public void onNextPageClick() {
+                mBlogList.clear();
+                notifyDataSetChanged();
+                mRefreshState = STATE_REFRESHING;
+                mRefreshListener.onRefreshing();
+                int page = Integer.parseInt(mCurPage);
+                mReadingController.loadPageData(page + 1);
+                ToastUtils.show(mContext, "" + (page + 1));
+            }
+
+            @Override
+            public void onPrePageClick() {
+                mBlogList.clear();
+                notifyDataSetChanged();
+                mRefreshState = STATE_REFRESHING;
+                mRefreshListener.onRefreshing();
+                int page = Integer.parseInt(mCurPage);
+                mReadingController.loadPageData(page - 1);
+                ToastUtils.show(mContext, "" + (page - 1));
+            }
+
+            @Override
+            public void onPageSelected(String page) {
+                mBlogList.clear();
+                notifyDataSetChanged();
+                mRefreshState = STATE_REFRESHING;
+                mRefreshListener.onRefreshing();
+                int p = Integer.parseInt(page);
+                mReadingController.loadPageData(p);
+                ToastUtils.show(mContext, page);
+            }
+        };
     }
 
     private OnItemClickListener<BlogEntity> onItemClick() {
@@ -126,6 +165,21 @@ public class ReadingFragment extends BaseFragment implements IReadingController{
         mRefreshState = STATE_REFRESH_FINISH;
         mRefreshListener.onRefreshFinish();
         ToastUtils.show(mContext, "数据加载失败，请重试");
+    }
+
+    @Override
+    public void updatePages(List<String> pages) {
+        if (mRecycleAdapter != null) {
+            mRecycleAdapter.updatePages(pages);
+        }
+    }
+
+    @Override
+    public void updateCurPage(String page) {
+        mCurPage = page;
+        if (mRecycleAdapter != null) {
+            mRecycleAdapter.updateCurPage(page);
+        }
     }
 
     public void retryLoadData() {

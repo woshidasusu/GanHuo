@@ -5,6 +5,7 @@ import android.os.Message;
 
 import com.dasu.ganhuo.BuildConfig;
 import com.dasu.ganhuo.mode.logic.reading.BlogEntity;
+import com.dasu.ganhuo.mode.logic.reading.ReadingEntity;
 import com.dasu.ganhuo.mode.logic.reading.TypeEntity;
 import com.dasu.ganhuo.utils.LogUtils;
 
@@ -90,7 +91,7 @@ public class ReadingController {
      * @param page
      * @param listener
      */
-    public static void getSpecifyType(final String type, final int page, final RetrofitListener<List<BlogEntity>> listener) {
+    public static void getSpecifyType(final String type, final int page, final RetrofitListener<ReadingEntity> listener) {
         if (markTaskState(TASK_GET_BLOG)) {
             return;
         }
@@ -100,6 +101,7 @@ public class ReadingController {
             @Override
             public void run() {
                 try {
+                    ReadingEntity readingEntity = new ReadingEntity();
                     //解析 html
                     String url = API_URL + type + "/page/" + page;
                     Document doc = Jsoup.connect(url).get();
@@ -115,15 +117,23 @@ public class ReadingController {
                         dataList.add(entity);
                     }
                     LogUtils.d(TAG, "获取成功: " + dataList.size());
+                    readingEntity.setBlogEntitys(dataList);
+                    readingEntity.setCurPage(page);
+                    List<String> pageList = new ArrayList<String>();
+                    Element pages = doc.getElementById("pagination");
+                    for (Element p : pages.children()) {
+                        pageList.add(p.text());
+                    }
+                    readingEntity.setPages(pageList);
                     Message msg = Message.obtain();
                     msg.what = ON_SUCCESS;
-                    msg.obj = new HandlerMsg<List<BlogEntity>>().setListener(listener).setData(dataList);
+                    msg.obj = new HandlerMsg<ReadingEntity>().setListener(listener).setData(readingEntity);
                     sUiHandler.sendMessage(msg);
                 } catch (IOException e) {
                     LogUtils.e(TAG, "获取失败, " + e.getMessage());
                     Message msg = Message.obtain();
                     msg.what = ON_FAILED;
-                    msg.obj = new HandlerMsg<List<BlogEntity>>().setListener(listener);
+                    msg.obj = new HandlerMsg<ReadingEntity>().setListener(listener);
                     sUiHandler.sendMessage(msg);
                 } finally {
                     sTaskState &= ~TASK_GET_BLOG;
