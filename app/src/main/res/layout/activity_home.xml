@@ -75,12 +75,31 @@
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 
-        <com.dasu.ganhuo.ui.view.recyclerview.BaseRecyclerView
-            android:id="@+id/rv_home_content"
+        <FrameLayout
+            android:id="@+id/layout_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="5dp"
+            android:descendantFocusability="afterDescendants"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            />
+            >
+
+            <com.dasu.ganhuo.ui.view.recyclerview.BaseRecyclerView
+                android:id="@+id/rv_home_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                />
+
+            <com.dasu.ganhuo.ui.view.Error404View
+                android:id="@+id/view_home_error_404"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                />
+
+        </FrameLayout>
+
     </android.support.design.widget.CoordinatorLayout>
 </merge>

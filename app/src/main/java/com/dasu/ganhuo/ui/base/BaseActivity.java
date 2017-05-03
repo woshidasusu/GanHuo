@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.dasu.ganhuo.R;
 import com.dasu.ganhuo.mode.network.NetBroadcastReceiver;
 import com.dasu.ganhuo.mode.network.NetStateListener;
+import com.dasu.ganhuo.ui.view.LoadingView;
 import com.dasu.ganhuo.utils.NetworkUtils;
 
 import static android.provider.Settings.ACTION_WIRELESS_SETTINGS;
@@ -25,6 +26,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NetState
 
     private View mNoNetworkTipView;
     protected Context mContext;
+    private View mLoadingView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NetState
         mContext = this;
         ActivityStack.getInstance().pushActivity(this);
         NetBroadcastReceiver.addListener(this);
+        mLoadingView = new LoadingView(mContext);
     }
 
     @Override
@@ -58,6 +61,22 @@ public abstract class BaseActivity extends AppCompatActivity implements NetState
                 mNoNetworkTipView.setVisibility(View.VISIBLE);
             }
             mainGroup.addView(mNoNetworkTipView, 0, params);
+        }
+    }
+
+    protected void showLoadingView(ViewGroup viewGroup) {
+        ViewGroup mainGroup = viewGroup;
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        removeLoadingView();
+        if (mainGroup != null) {
+            mainGroup.addView(mLoadingView, 0, params);
+        }
+    }
+
+    protected void removeLoadingView() {
+        if (mLoadingView.getParent() != null) {
+            ViewGroup parent = (ViewGroup) mLoadingView.getParent();
+            parent.removeView(mLoadingView);
         }
     }
 

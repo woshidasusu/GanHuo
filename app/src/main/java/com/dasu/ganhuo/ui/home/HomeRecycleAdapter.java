@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ class HomeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = HomeRecycleAdapter.class.getSimpleName();
     private static final int TYPE_DATA_VIEW = 1;
     private static final int TYPE_FOOT_VIEW = 2;
+    private static final int TYPE_EMPTY_VIEW = 3;
 
     private List<GanHuoEntity> mDataList;
     private OnItemClickListener<GanHuoEntity> mClickListener;
@@ -41,12 +43,15 @@ class HomeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mDataList != null && mDataList.size() > 0 ? mDataList.size() + 1 : 0;
+        return mDataList != null && mDataList.size() > 0 ? mDataList.size() + 1 : 2;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position > 0 && position == mDataList.size()) {
+        if ((mDataList == null || mDataList.size() == 0)) {
+            return position == 0 ? TYPE_EMPTY_VIEW : TYPE_FOOT_VIEW;
+        }
+        if (mDataList != null && mDataList.size() > 0 && position == mDataList.size()) {
             return TYPE_FOOT_VIEW;
         }
         return TYPE_DATA_VIEW;
@@ -58,6 +63,10 @@ class HomeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (viewType == TYPE_FOOT_VIEW) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_footview, parent, false);
             return new FootViewHolder(view);
+        }
+        if (viewType == TYPE_EMPTY_VIEW) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_data_empty, parent, false);
+            return new EmptyViewHolder(view);
         }
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home, parent, false);
         return new ViewHolder(view);
@@ -82,6 +91,14 @@ class HomeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             setSource(data.getUrl(), vHolder.mSourceTv);
             setType(data.getType(), vHolder.mTypeTv);
             setDate(data.getPublishedAt(), vHolder.mDateTv);
+        } else if (holder instanceof EmptyViewHolder) {
+            EmptyViewHolder eHolder = (EmptyViewHolder) holder;
+            if (mEmptyImgId > 0) {
+                eHolder.emptyImg.setImageResource(mEmptyImgId);
+            }
+            if (!TextUtils.isEmpty(mEmptyTip)) {
+                eHolder.emptyTip.setText(mEmptyTip);
+            }
         }
     }
 
@@ -116,6 +133,20 @@ class HomeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         notifyDataSetChanged();
     }
 
+    private int mEmptyImgId = -1;
+
+    public void setEmptyImg(int resId) {
+        mEmptyImgId = resId;
+        notifyDataSetChanged();
+    }
+
+    private String mEmptyTip;
+
+    public void setEmptyTip(String text) {
+        mEmptyTip = text;
+        notifyDataSetChanged();
+    }
+
     public void setOnItemClickListener(OnItemClickListener<GanHuoEntity> listener) {
         mClickListener = listener;
     }
@@ -128,7 +159,7 @@ class HomeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView mAuthorTv;
         TextView mDateTv;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             mTitleTv = (TextView) itemView.findViewById(R.id.tv_home_item_title);
             mTypeTv = (TextView) itemView.findViewById(R.id.tv_home_item_type);
@@ -154,6 +185,18 @@ class HomeRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     mContext.startActivity(new Intent(mContext, HistoryActivity.class));
                 }
             });
+        }
+    }
+
+    class EmptyViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView emptyImg;
+        TextView emptyTip;
+
+        EmptyViewHolder(View itemView) {
+            super(itemView);
+            emptyImg = (ImageView) itemView.findViewById(R.id.iv_view_data_empty);
+            emptyTip = (TextView) itemView.findViewById(R.id.tv_view_data_empty);
         }
     }
 }

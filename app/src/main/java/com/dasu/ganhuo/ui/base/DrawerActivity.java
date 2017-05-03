@@ -14,7 +14,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.dasu.ganhuo.R;
 import com.dasu.ganhuo.ui.about.AboutActivity;
 import com.dasu.ganhuo.ui.category.CategoryActivity;
@@ -23,6 +25,7 @@ import com.dasu.ganhuo.ui.home.HomeActivity;
 import com.dasu.ganhuo.ui.meizi.MeiziActivity;
 import com.dasu.ganhuo.ui.reading.ReadingActivity;
 import com.dasu.ganhuo.ui.video.VideoActivity;
+import com.dasu.ganhuo.ui.view.GlideCircleTransform;
 import com.dasu.ganhuo.utils.ToastUtils;
 
 /**
@@ -46,6 +49,7 @@ public abstract class DrawerActivity extends BaseActivity implements NavigationV
     private ViewGroup mContentView;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
+    private ImageView mHeadImg;
 
     private int mCurrentMenu;
     private long mFirstClickTime;
@@ -57,11 +61,16 @@ public abstract class DrawerActivity extends BaseActivity implements NavigationV
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        mHeadImg = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.iv_nav_head);
         mNavigationView.setNavigationItemSelectedListener(this);
         mCurrentMenu = bindMenuId();
         if (mCurrentMenu != 0) {
             mNavigationView.setCheckedItem(mCurrentMenu);
         }
+        Glide.with(mContext)
+                .load(R.drawable.img_me)
+                .transform(new GlideCircleTransform(mContext))
+                .into(mHeadImg);
     }
 
     @Override

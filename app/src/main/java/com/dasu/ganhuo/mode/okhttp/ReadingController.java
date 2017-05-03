@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by dasu on 2017/4/21.
  *
- * 闲读数据获取，使用jsoup来解析闲读html页面数据，因为没有相关了api可以使用
+ * 闲读数据获取，使用jsoup来解析闲读html页面数据，因为没有相关api可以使用
  */
 
 public class ReadingController {
