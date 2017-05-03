@@ -38,14 +38,15 @@
                 android:src="@drawable/icon_github"/>
 
             <TextView
+                android:id="@+id/tv_about_github"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/iv_about_github"
-                android:layout_marginBottom="6dp"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/iv_about_github"
-                android:autoLink="web"
                 android:text="https://github.com/woshidasusu"
+                android:textColor="@color/colorAccent"
+                android:clickable="true"
                 android:textSize="13sp"
                 />
 
@@ -58,13 +59,15 @@
                 android:src="@drawable/icon_jianshu"/>
 
             <TextView
+                android:id="@+id/tv_about_jianshu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/iv_about_jianshu"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/iv_about_jianshu"
-                android:autoLink="web"
                 android:text="http://www.jianshu.com/u/bb52a2918096"
+                android:textColor="@color/colorAccent"
+                android:clickable="true"
                 android:textSize="13sp"
                 />
         </RelativeLayout>

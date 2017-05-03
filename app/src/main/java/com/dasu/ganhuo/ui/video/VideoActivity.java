@@ -39,6 +39,7 @@ public class VideoActivity extends SubpageWithToolbarActivity implements OnItemC
         setContentView(R.layout.activity_video);
         initVariable();
         initView();
+        showLoadingView();
         mVideoController.loadBaseData();
     }
 
@@ -88,6 +89,7 @@ public class VideoActivity extends SubpageWithToolbarActivity implements OnItemC
      * @param data
      */
     public void updateVideo(List<GanHuoEntity> data) {
+        removeLoadingView();
         if (mVideoList == null) {
             mVideoList = new ArrayList<>();
         }

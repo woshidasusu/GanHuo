@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.dasu.ganhuo.R;
@@ -31,6 +32,7 @@ public class ReadingActivity extends BaseActivity implements OnSwipeRefreshListe
         setContentView(R.layout.activity_reading);
         initVariable();
         initView();
+        showLoadingView(mContentLayout);
         mReadingController.getReadingTypes();
     }
 
@@ -52,10 +54,12 @@ public class ReadingActivity extends BaseActivity implements OnSwipeRefreshListe
     private ViewPager mViewPager;
     private ImageView mBackBtn;
     private SwipeRefreshLayout mRefreshLayout;
+    private ViewGroup mContentLayout;
 
     private void initView() {
         mTabLayout = (TabLayout) findViewById(R.id.layout_reading_title);
         mViewPager = (ViewPager) findViewById(R.id.vp_reading_content);
+        mContentLayout = (ViewGroup) findViewById(R.id.layout_content);
         mViewPager.setAdapter(mPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         mBackBtn = (ImageView) findViewById(R.id.ibtn_reading_back);
@@ -90,6 +94,7 @@ public class ReadingActivity extends BaseActivity implements OnSwipeRefreshListe
     }
 
     public void updateTypes(List<TypeEntity> data) {
+        removeLoadingView();
         if (data == null || data.size() == 0) {
             return;
         }

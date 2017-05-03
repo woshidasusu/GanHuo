@@ -57,16 +57,17 @@ class CategoryRecycleAdapter extends LoadMoreRecycleAdapter<CategoryRecycleAdapt
         holder.mSourceTv.setText((source.equals("其它来源") ? "个人博客" : source));
         holder.mAuthorTv.setText("© " + data.getWho());
         setDate(data.getPublishedAt(), holder.mDateTv);
+        holder.mImgCountsTv.setText((data.getImages() == null ? "0" : data.getImages().size()) + "张");
+
     }
 
     private void setDemoImage(final ScaleImageView imageView, List<String> images) {
-        //todo images 和 占位符需要修改
         Glide.with(mContext)
                 .load(images != null ? images.get(0) : "http://www.baidu.com.jpg")
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.bg_placeholder_blank)
-                .error(R.drawable.bg_placeholder_blank)
+                .placeholder(R.drawable.img_loading_image)
+                .error(R.drawable.img_no_image)
                 .into(imageView);
     }
 
@@ -87,6 +88,7 @@ class CategoryRecycleAdapter extends LoadMoreRecycleAdapter<CategoryRecycleAdapt
         TextView mSourceTv;
         TextView mDateTv;
         ViewGroup mInfoLayout;
+        TextView mImgCountsTv;
         GanHuoEntity data;
 
         ViewHolder(View itemView) {
@@ -97,6 +99,7 @@ class CategoryRecycleAdapter extends LoadMoreRecycleAdapter<CategoryRecycleAdapt
             mAuthorTv = (TextView) itemView.findViewById(R.id.tv_category_author);
             mDateTv = (TextView) itemView.findViewById(R.id.tv_category_date);
             mInfoLayout = (ViewGroup) itemView.findViewById(R.id.layout_category_info);
+            mImgCountsTv = (TextView) itemView.findViewById(R.id.tv_category_img_count);
             mDemoIv.setOnClickListener(this);
             mInfoLayout.setOnClickListener(this);
         }

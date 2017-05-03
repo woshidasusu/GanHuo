@@ -72,4 +72,8 @@ public abstract class SubpageWithToolbarActivity extends BaseActivity{
         }
         return super.onOptionsItemSelected(item);
     }
+
+    protected void showLoadingView() {
+        showLoadingView(mContentView);
+    }
 }

@@ -38,6 +38,7 @@ public class HistoryActivity extends SubpageWithToolbarActivity implements OnIte
         setContentView(R.layout.activity_history);
         initVariable();
         initView();
+        showLoadingView();
         mHistoryController.loadBaseData();
     }
 
@@ -82,6 +83,7 @@ public class HistoryActivity extends SubpageWithToolbarActivity implements OnIte
     }
 
     public void updateHistory(List<HtmlDataEntity> data) {
+        removeLoadingView();
         if (mHistoryList == null) {
             mHistoryList = new ArrayList<>();
         }

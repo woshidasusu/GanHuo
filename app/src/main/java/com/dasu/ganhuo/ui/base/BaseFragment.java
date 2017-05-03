@@ -74,7 +74,7 @@ public abstract class BaseFragment extends Fragment {
                 isFragmentVisible = true;
             }
         }
-        super.onViewCreated(isReuseView ? rootView : view, savedInstanceState);
+        super.onViewCreated(isReuseView && rootView != null ? rootView : view, savedInstanceState);
     }
 
     @Override

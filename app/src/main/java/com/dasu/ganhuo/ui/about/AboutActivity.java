@@ -2,12 +2,15 @@ package com.dasu.ganhuo.ui.about;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Html;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.dasu.ganhuo.R;
 import com.dasu.ganhuo.ui.base.SubpageWithToolbarActivity;
+import com.dasu.ganhuo.ui.home.WebViewActivity;
 import com.dasu.ganhuo.ui.view.GlideCircleTransform;
 
 /**
@@ -35,6 +38,8 @@ public class AboutActivity extends SubpageWithToolbarActivity {
     private ImageView mMeIv;
     private TextView mProjectTv;
     private TextView mThanksTv;
+    private TextView mGithubTv;
+    private TextView mJianshuTv;
 
     private void initView() {
         //init imageview me
@@ -46,7 +51,29 @@ public class AboutActivity extends SubpageWithToolbarActivity {
         //init textview
         mProjectTv = (TextView) findViewById(R.id.tv_about_project);
         mThanksTv = (TextView) findViewById(R.id.tv_about_thanks);
+        mGithubTv = (TextView) findViewById(R.id.tv_about_github);
+        mJianshuTv = (TextView) findViewById(R.id.tv_about_jianshu);
+        mGithubTv.setOnClickListener(onGithubClick());
+        mJianshuTv.setOnClickListener(onJianshuClick());
         setText();
+    }
+
+    private View.OnClickListener onGithubClick() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebViewActivity.startActivity(mContext, GITHUB, "Github");
+            }
+        };
+    }
+
+    private View.OnClickListener onJianshuClick() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebViewActivity.startActivity(mContext, JIANSHU, "简书");
+            }
+        };
     }
 
     private String mProjectIntroduction =
@@ -64,9 +91,14 @@ public class AboutActivity extends SubpageWithToolbarActivity {
                     "访问权限，尽可能对外部隐藏其模块的实现细节，欢迎star交流、指点。" + "\r\n";
 
     private String mThanksBy =
-            "鸣谢: @代码家";
+            "鸣谢: " + "\r\n" +
+                    "   @drakeet/Meizhi" + "\r\n" +
+                    "   @burgessjp/GanHuoIO" + "\r\n" +
+                    "   @CaMnter/EasyGank" + "\r\n";
 
     private void setText() {
+        mGithubTv.setText(Html.fromHtml("<u>" + GITHUB + "</u>"));
+        mJianshuTv.setText(Html.fromHtml("<u>" + JIANSHU + "</u>"));
         mProjectTv.setText(mProjectIntroduction);
         mThanksTv.setText(mThanksBy);
     }
