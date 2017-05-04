@@ -83,7 +83,8 @@ public class AboutActivity extends SubpageWithToolbarActivity {
                     "         okhttp + retrofit （网络访问）" + "\r\n" +
                     "         gson （json数据解析）" + "\r\n" +
                     "         jsoup （Html解析）" + "\r\n" +
-                    "         glide （图片加载）" + "\r\n\r\n" +
+                    "         glide （图片加载）" + "\r\n" +
+                    "         photoview  (图片查看，支持手势缩放)" + "\r\n\r\n" +
                     "说明: " + "\r\n" +
                     "         该项目旨在增加自己的编程实践，因此第三方库的使用只选择最基本的功能，比如网络访问，图片加载这些" +
                     "这些无法自己实现的功能，其他包括数据库等都尝试自己进行封装实现。另外，项目架构虽然只是MVC模式，但基本都是" +

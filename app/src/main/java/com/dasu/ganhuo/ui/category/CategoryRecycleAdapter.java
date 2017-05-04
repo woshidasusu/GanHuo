@@ -16,6 +16,7 @@ import com.dasu.ganhuo.ui.view.ScaleImageView;
 import com.dasu.ganhuo.ui.view.recyclerview.LoadMoreRecycleAdapter;
 import com.dasu.ganhuo.utils.TimeUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -108,7 +109,14 @@ class CategoryRecycleAdapter extends LoadMoreRecycleAdapter<CategoryRecycleAdapt
         public void onClick(View v) {
             if (mClickListener != null) {
                 if (v == mDemoIv) {
-                    mClickListener.onImageClick(data.getImages());
+                    List<String> imgs = null;
+                    if (data.getImages() != null && data.getImages().size() > 0) {
+                        imgs = data.getImages();
+                    } else {
+                        imgs = new ArrayList<>();
+                        imgs.add("http://upload-images.jianshu.io/upload_images/1924341-8663c74266577e74.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240");
+                    }
+                    mClickListener.onImageClick(imgs);
                 } else {
                     mClickListener.onItemClick(data);
                 }

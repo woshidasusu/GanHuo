@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.github.chrisbanes.photoview.PhotoView;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ class SwitchImageAdapter extends PagerAdapter {
 
     private ImageView newImageView(Context context) {
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        ImageView imageView = new ImageView(context);
+        ImageView imageView = new PhotoView(context);
         imageView.setLayoutParams(params);
         imageView.setAdjustViewBounds(true);
         imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
