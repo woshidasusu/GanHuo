@@ -2,6 +2,7 @@ package com.dasu.ganhuo.mode.okhttp;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Path;
 
 /**
@@ -14,6 +15,7 @@ interface GankApi {
     /**
      * 获取发过干货的日期接口
      */
+    @Headers("Cache-Control: no-cache, no-store")
     @GET("day/history")
     Call<GankResEntity> getPublishDate();
 
@@ -31,6 +33,10 @@ interface GankApi {
      */
     @GET("day/{y}/{M}/{d}")
     Call<GankResEntity> getSomedayGanHuo(@Path("y") String year, @Path("M") String month, @Path("d") String day);
+
+    @Headers("Cache-Control: no-cache, no-store")
+    @GET("day/{y}/{M}/{d}")
+    Call<GankResEntity> getTodayGanHuo(@Path("y") String year, @Path("M") String month, @Path("d") String day);
 
     /**
      * 获取某一天的网页数据

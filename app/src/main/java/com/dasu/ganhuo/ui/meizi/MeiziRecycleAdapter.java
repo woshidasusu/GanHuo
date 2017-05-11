@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.dasu.ganhuo.R;
@@ -62,7 +63,7 @@ class MeiziRecycleAdapter extends LoadMoreRecycleAdapter<MeiziRecycleAdapter.Vie
         Glide.with(mContext)
                 .load(data.getUrl())
                 .asBitmap()
-                .placeholder(R.drawable.bg_placeholder_blank)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {

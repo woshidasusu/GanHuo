@@ -9,10 +9,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * Created by suxq on 2017/4/7.
+ * Created by dasu on 2017/4/7.
  */
 
 public class FileUtils {
+
+    private static final String EXTERNAL_DIRECTORY_NAME = "gank";   //App保存在SD卡里根目录的文件名
 
     /**
      * 判断外部存储是否可用
@@ -30,7 +32,7 @@ public class FileUtils {
      * @return
      * @throws IOException
      */
-    public static String getSDcardPath() throws IOException{
+    public static String getSDcardPath() throws IOException {
         if (isSDcardAvailable()) {
             return Environment.getExternalStorageDirectory().getAbsolutePath();
         } else {
@@ -39,15 +41,15 @@ public class FileUtils {
     }
 
     /**
-     * 获取程序的外部存储的数据存放根目录 {/gank}
+     * 获取程序的外部存储的数据存放根目录
      *
      * @return
      */
-    public static String getAppRootDirectoryPath(){
+    public static String getAppRootDirectoryPath() {
         if (isSDcardAvailable()) {
             try {
                 String path = getSDcardPath();
-                File file = new File(path, "gank");
+                File file = new File(path, EXTERNAL_DIRECTORY_NAME);
                 if (!file.exists()) {
                     file.mkdirs();
                 }
@@ -55,6 +57,23 @@ public class FileUtils {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        return null;
+    }
+
+    /**
+     * 获取外部缓存的地址
+     *
+     * @return
+     */
+    public static String getExternalCacheDirectory() {
+        if (isSDcardAvailable()) {
+            String path = getAppRootDirectoryPath();
+            File file = new File(path, "cache");
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+            return file.getAbsolutePath();
         }
         return null;
     }
@@ -135,7 +154,7 @@ public class FileUtils {
      * @param file
      * @throws IOException
      */
-    public static void deleteFile(File file) throws IOException{
+    public static void deleteFile(File file) throws IOException {
         if (file.isDirectory()) {
             for (File f : file.listFiles()) {
                 deleteFile(f);
@@ -144,7 +163,6 @@ public class FileUtils {
             file.delete();
         }
     }
-
 
 
 }

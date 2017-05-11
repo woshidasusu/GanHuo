@@ -48,6 +48,10 @@
             android:authorities="com.dasu.ganhuo.authority"
             android:name=".mode.database.GanHuoContentProvider"
             android:exported="false"/>
+
+        <meta-data android:name="com.dasu.ganhuo.ui.base.GlideModelConfig"
+                   android:value="GlideModule" />
+
     </application>
 
 </manifest>

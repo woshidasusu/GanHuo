@@ -3,8 +3,6 @@ package com.dasu.ganhuo.mode.okhttp;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.concurrent.TimeUnit;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -26,11 +24,7 @@ class RetrofitHelper {
                 .create();
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        mOkHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .retryOnConnectionFailure(true)
-                .connectTimeout(12, TimeUnit.SECONDS)
-                .build();
+        mOkHttpClient = OkHttpProvider.getCacheOkHttpClient();
     }
 
     static Retrofit newRetrofit(String baseUrl) {

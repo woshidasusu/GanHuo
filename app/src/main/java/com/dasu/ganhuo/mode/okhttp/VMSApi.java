@@ -2,6 +2,7 @@ package com.dasu.ganhuo.mode.okhttp;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -12,6 +13,7 @@ import retrofit2.http.Query;
  */
 interface VMSApi {
 
+    @Headers("Cache-Control: no-cache, no-store")
     @GET("apps/latest/{id}")
     Call<VersionResEntity> queryVersion(@Path("id") String id, @Query("api_token") String apiToken);
 

@@ -10,12 +10,13 @@ import com.dasu.ganhuo.mode.network.NetBroadcastReceiver;
  */
 public class GanhuoApplication extends Application{
     private static final String TAG = GanhuoApplication.class.getSimpleName();
-
+    private static GanhuoApplication mInstance;
     private NetBroadcastReceiver mNetBroadcastReceiver;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        mInstance = this;
         registerNetStateListener();
     }
 
@@ -23,6 +24,10 @@ public class GanhuoApplication extends Application{
     public void onTerminate() {
         super.onTerminate();
         unregisterNetStateListener();
+    }
+
+    public static GanhuoApplication getInstance() {
+        return mInstance;
     }
 
     private void registerNetStateListener() {

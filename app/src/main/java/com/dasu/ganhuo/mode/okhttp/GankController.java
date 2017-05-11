@@ -156,6 +156,43 @@ public class GankController {
         });
     }
 
+    public static void getTodayGanHuo(final String someday, final RetrofitListener<SomedayGanHuoEntity> callback) {
+        LogUtils.d(TAG, "请求" + someday + " 的数据...");
+        final String[] date = someday.split("-");
+        if (date.length != 3) {
+            LogUtils.e(TAG, "参数 " + someday + " 格式错误，请修正，格式如：2017-05-01");
+            return;
+        }
+        getGankApi().getSomedayGanHuo(date[0], date[1], date[2]).enqueue(new Callback<GankResEntity>() {
+            @Override
+            public void onResponse(Call<GankResEntity> call, Response<GankResEntity> response) {
+                if (response.isSuccessful()) {
+                    LogUtils.d(TAG, someday + " 的数据： " + response.body().toString());
+
+                    Object results = response.body().getResults();
+                    Type t = new TypeToken<SomedayGanHuoEntity.Results>() {
+                    }.getType();
+                    SomedayGanHuoEntity.Results resultEntity = sGson.fromJson(sGson.toJson(results), t);
+                    SomedayGanHuoEntity data = new SomedayGanHuoEntity();
+                    data.setCategory(response.body().getCategory());
+                    data.setResults(resultEntity);
+                    callback.onSuccess(data);
+                } else {
+                    //返回404之类的错误
+                    LogUtils.e(TAG, "请求失败，code: " + response.code());
+                    callback.onError("请求失败，code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GankResEntity> call, Throwable t) {
+                //可能是网络问题，请求发送失败
+                callback.onError(t.getMessage());
+                LogUtils.e(TAG, "请求失败", t);
+            }
+        });
+    }
+
     /**
      * 获取某一天的网页数据
      *
