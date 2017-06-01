@@ -39,16 +39,15 @@ gif图有些长，2分多钟，慢慢看哦
 
 ![](./image/gif.gif) 
 
-<img src="./image/1.png" width = "300" />  
-
-<img src="./image/2.png" width = "400" />  
-<img src="./image/3.png" width = "500" />  
-<img src="./image/4.png" width = "350" />  
-<img src="./image/5.png" width = "450" />  
-<img src="./image/6.png" width = "500" />  
-<img src="./image/7.png" width = "300" />  
-<img src="./image/8.png" width = "300" />  
-<img src="./image/9.png" width = "300" />  
+<img src="./image/1.png" width = "330" />
+<img src="./image/2.png" width = "330" />
+<img src="./image/3.png" width = "330" />
+<img src="./image/4.png" width = "330" />
+<img src="./image/5.png" width = "330" />
+<img src="./image/6.png" width = "330" />
+<img src="./image/7.png" width = "330" /> 
+<img src="./image/8.png" width = "330" />
+<img src="./image/9.png" width = "330" />  
 
 
 <br>
