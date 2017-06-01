@@ -8,7 +8,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/layout_appbar"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="240dp"
         android:theme="@style/AppTheme.AppBarOverlay"
         app:expanded="false"
         >
